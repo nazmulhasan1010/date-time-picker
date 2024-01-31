@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.picker {
+  height: auto;
+  width: 300px;
+  background-color: aqua;
+  padding: 5px;
+  border-radius: 5px;
+}
+.picker .datepicker-calendar {
+  height: 100%;
+  width: 100%;
+  background-color: tomato;
+}
+.picker .datepicker-calendar .calendar-header {
+  display: grid;
+  justify-content: space-between;
+  align-content: center;
+  grid-template-columns: repeat(3, auto);
+  padding: 2px 5px;
+  background-color: #cccccc;
+}
+.picker .datepicker-calendar .calendar-days .day-names, .picker .datepicker-calendar .calendar-days .day-date {
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  gap: 1px;
+}
+.picker .datepicker-calendar .calendar-days .day-names span, .picker .datepicker-calendar .calendar-days .day-date span {
+  text-align: center;
+  background-color: red;
+  text-transform: uppercase;
+  padding: 3px 0;
+  font-size: 16px;
+}
+.picker .datepicker-calendar .calendar-days .day-date span {
+  background-color: #fff;
+}
+.picker .datepicker-calendar .years {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 1px;
+}
+.picker .datepicker-calendar .years span {
+  text-align: center;
+  background-color: red;
+  text-transform: uppercase;
+  padding: 3px 0;
+  font-size: 16px;
+}
+
+/*# sourceMappingURL=style.css.map */

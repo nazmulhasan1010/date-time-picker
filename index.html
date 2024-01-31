@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Picker</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+
+<div class="picker">
+    <div class="datepicker-calendar">
+        <div class="calendar-header">
+            <span class="prev-month">&lt;</span>
+            <span class="current-month-year"> <button></button> , <button></button></span>
+            <span class="next-month">&gt;</span>
+        </div>
+        <div class="calendar-days" style="display: none">
+            <div class="day-names"></div>
+            <div class="day-date"></div>
+        </div>
+        <div class="years">
+            <span>2000</span>
+            <span>2001</span>
+            <span>2002</span>
+            <span>2003</span>
+            <span>2004</span>
+            <span>2005</span>
+            <span>2006</span>
+            <span>2007</span>
+            <span>2008</span>
+            <span>2009</span>
+            <span>2010</span>
+            <span>2011</span>
+            <span>2012</span>
+            <span>2013</span>
+            <span>2014</span>
+            <span>2015</span>
+            <span>2016</span>
+            <span>2017</span>
+            <span>2018</span>
+            <span>2020</span>
+            <span>2021</span>
+            <span>2022</span>
+            <span>2023</span>
+            <span>2024</span>
+            <span>2025</span>
+        </div>
+        <div class="month" style="display: none"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="src/picker.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.picker').picker();
+    });
+</script>
+</body>
+</html>
