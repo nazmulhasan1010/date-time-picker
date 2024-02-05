@@ -5,6 +5,7 @@
 }
 
 body {
+  font-family: Arial, sans-serif;
   height: 100vh;
   width: 100%;
   display: flex;
@@ -12,29 +13,34 @@ body {
   align-items: center;
 }
 
-.picker {
+.nh-picker {
   height: auto;
   width: 300px;
   background-color: aqua;
   padding: 5px;
   border-radius: 5px;
 
-  .datepicker-calendar {
+  .nh-datepicker-calendar {
     height: 100%;
     width: 100%;
     background-color: tomato;
 
-    .calendar-header {
+    .nh-calendar-header {
       display: grid;
       justify-content: space-between;
       align-content: center;
       grid-template-columns: repeat(3, auto);
       padding: 2px 5px;
       background-color: #cccccc;
+
+      .nh-header-content-text {
+        text-align: center;
+        text-transform: capitalize;
+      }
     }
 
-    .calendar-days {
-      .day-names, .day-date {
+    .nh-calendar-days {
+      .nh-day-names, .nh-day-date {
         display: grid;
         grid-template-columns: repeat(7, auto);
         gap: 1px;
@@ -48,25 +54,52 @@ body {
         }
       }
 
-      .day-date {
+      .nh-day-date {
         span {
           background-color: #fff;
         }
       }
     }
 
-    .years {
+    .nh-years {
       display: grid;
       grid-template-columns: repeat(5, auto);
       gap: 1px;
 
       span {
         text-align: center;
-        background-color: red;
+        background-color: #fff;
         text-transform: uppercase;
         padding: 3px 0;
         font-size: 16px;
       }
+    }
+
+    .nh-month {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 1px;
+
+      span {
+        text-align: center;
+        background-color: #fff;
+        text-transform: capitalize;
+        padding: 3px 0;
+        font-size: 16px;
+      }
+    }
+
+    .nh-span-active {
+      background-color: green !important;
+      color: aqua;
+    }
+
+    .nh-active {
+      display: grid !important;
+    }
+
+    .nh-inactive {
+      display: none !important;
     }
   }
 }
