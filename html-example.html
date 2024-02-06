@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Picker</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<input type="text" class="picker nh-picker">
+<div class="nh-picker">
+    <div class="nh-datepicker-calendar">
+        <div class="nh-calendar-header">
+            <span class="nh-header-content nh-prev-month">&lt;</span>
+            <span class="nh-header-content nh-current-month-year"> <button></button> , <button></button></span>
+            <span class="nh-header-content-text nh-next-month nh-inactive"></span>
+            <span class="nh-header-content nh-next-month">&gt;</span>
+        </div>
+        <div class="nh-content nh-calendar-days nh-active">
+            <div class="nh-day-names"></div>
+            <div class="nh-day-date"></div>
+        </div>
+        <div class="nh-content nh-years nh-inactive"></div>
+        <div class="nh-content nh-month nh-inactive"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="src/picker.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.picker').picker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>
+</body>
+</html>
