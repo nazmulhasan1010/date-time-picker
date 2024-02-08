@@ -62,10 +62,18 @@ body {
   border: 1px solid rgba(91, 66, 243, 0.79);
   border-radius: 20px;
 }
+.nh-picker .nh-datepicker-calendar .nh-calendar-header span button:hover {
+  background-color: rgba(91, 66, 243, 0.79) !important;
+  color: #fff !important;
+}
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month {
   padding: 5px 10px;
   border: 1px solid rgba(91, 66, 243, 0.79);
   border-radius: 20px;
+}
+.nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month:hover, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month:hover {
+  background-color: rgba(91, 66, 243, 0.79) !important;
+  color: #fff !important;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days {
   margin-top: 10px;
@@ -81,6 +89,11 @@ body {
   text-transform: uppercase;
   padding: 3px 0;
   font-size: 16px;
+}
+.nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span:hover, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span:hover {
+  background-color: rgba(91, 66, 243, 0.79) !important;
+  color: #fff !important;
+  border-radius: 3px;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span {
   font-weight: normal;
@@ -100,6 +113,11 @@ body {
   font-size: 16px;
   margin: 10px 0;
 }
+.nh-picker .nh-datepicker-calendar .nh-years span:hover {
+  background-color: rgba(91, 66, 243, 0.79) !important;
+  color: #fff !important;
+  border-radius: 3px;
+}
 .nh-picker .nh-datepicker-calendar .nh-month {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -114,9 +132,15 @@ body {
   font-size: 16px;
   margin: 10px 0;
 }
+.nh-picker .nh-datepicker-calendar .nh-month span:hover {
+  background-color: rgba(91, 66, 243, 0.79) !important;
+  color: #fff !important;
+  border-radius: 3px;
+}
 .nh-picker .nh-datepicker-calendar .nh-span-active {
   background-color: rgba(91, 66, 243, 0.79) !important;
   color: #fff !important;
+  border-radius: 3px;
 }
 .nh-picker .nh-datepicker-calendar .nh-active {
   display: grid !important;

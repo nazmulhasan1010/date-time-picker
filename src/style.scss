@@ -15,6 +15,14 @@ body {
   align-items: center;
 }
 
+@mixin span-hover {
+  &:hover {
+    background-color: rgba(91, 66, 243, 0.79) !important;
+    color: #fff !important;
+    border-radius: 3px;
+  }
+}
+
 .nh-picker {
   height: auto;
   width: 300px;
@@ -65,12 +73,22 @@ body {
           padding: 5px 20px;
           border: 1px solid rgba(91, 66, 243, 0.79);
           border-radius: 20px;
+
+          &:hover {
+            background-color: rgba(91, 66, 243, 0.79) !important;
+            color: #fff !important;
+          }
         }
 
         &.nh-prev-month, &.nh-next-month {
           padding: 5px 10px;
           border: 1px solid rgba(91, 66, 243, 0.79);
           border-radius: 20px;
+
+          &:hover {
+            background-color: rgba(91, 66, 243, 0.79) !important;
+            color: #fff !important;
+          }
         }
       }
     }
@@ -84,7 +102,7 @@ body {
         gap: 1px;
 
         span {
-          //@include span-hover;
+          @include span-hover;
           text-align: center;
           font-weight: bold;
           text-transform: uppercase;
@@ -108,7 +126,7 @@ body {
       margin-top: 10px;
 
       span {
-        //@include span-hover;
+        @include span-hover;
         text-align: center;
         background-color: #fff;
         text-transform: uppercase;
@@ -125,7 +143,7 @@ body {
       margin-top: 10px;
 
       span {
-        //@include span-hover;
+        @include span-hover;
         text-align: center;
         background-color: #fff;
         text-transform: capitalize;
@@ -138,6 +156,7 @@ body {
     .nh-span-active {
       background-color: rgba(91, 66, 243, 0.79) !important;
       color: #fff !important;
+      border-radius: 3px;
     }
 
     .nh-active {
@@ -146,13 +165,6 @@ body {
 
     .nh-inactive {
       display: none !important;
-    }
-  }
-
-  @mixin span-hover {
-    &:hover {
-      background-color: rgba(91, 66, 243, 0.79) !important;
-      color: #fff !important;
     }
   }
 }
