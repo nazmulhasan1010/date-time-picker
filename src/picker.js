@@ -5,7 +5,7 @@ $.fn.extend({
             open = false, format = options.format ?? 'dd/mm/yyyy';
         headerSection.append($(span, {
             class: 'nh-header-content nh-prev-month', html: '&lt;'
-        })).append($(span, {class: 'nh-header-content nh-current-month-year',}).append('<button></button> , <button></button>')).append($(span, {class: 'nh-header-content-text nh-next-month nh-inactive'})).append($(span, {
+        })).append($(span, {class: 'nh-header-content nh-current-month-year',}).append('<button></button>  <button></button>')).append($(span, {class: 'nh-header-content-text nh-next-month nh-inactive'})).append($(span, {
             class: 'nh-header-content nh-next-month', html: '&gt;'
         }));
 
@@ -15,29 +15,39 @@ $.fn.extend({
         $.each(elements, function (index, element) {
             field = $('<input>', {
                 type: 'text',
-                // class: $(element).attr('class') + ' nh-picker-field-' + index,
-                class: $(element).attr('class'),
+                class: $(element).attr('class') + ' nh-picker-field-' + index,
                 name: $(element).attr('name'),
                 id: $(element).attr('id'),
                 placeholder: $(element).attr('placeholder'),
             });
 
-            let comma = ',', fieldClasses = $(element).attr('class').split(" "), singleElementClass = '';
-            for (let i = 0; i < fieldClasses.length; i++) {
-                singleElementClass += '.' + fieldClasses[i];
-            }
+            let comma = ',', fieldClasses = $(field).attr('class').split(" "), singleElementClass = '';
+            let i = 0;
             if ((index + 1) >= elements.length) {
                 comma = '';
             }
-            fieldClasses += singleElementClass + comma;
-            console.log(fieldClasses)
+            for (i; i < fieldClasses.length; i++) {
+                singleElementClass += '.' + fieldClasses[i];
+            }
+            createClass(singleElementClass, comma);
             $(element).replaceWith(field);
         })
-        console.log(fieldClasses)
+
+        function createClass(singleElementClass, comma) {
+            fieldClasses += singleElementClass + comma;
+        }
+
+        let fieldClassesArray = fieldClasses.split(',');
+
         $(fieldClasses).click(function () {
-            exception = $(this).attr('class')
+            let pickerActiveClass = $(this).attr('class').split(" ");
 
             if (open === false) {
+                exception = '';
+                for (let i = 0; i < pickerActiveClass.length; i++) {
+                    exception += '.' + pickerActiveClass[i];
+                }
+
                 $(body).append(picker);
                 let pickerWidth = $(picker).outerWidth();
 
@@ -55,7 +65,7 @@ $.fn.extend({
                 }
 
                 $(picker).css({
-                    left: leftPosition, top: top + height,
+                    left: leftPosition, top: top + height + 12,
                 })
 
                 let cuDate = new Date(), cuYear = cuDate.getFullYear(), cuMonth = cuDate.getMonth(),
@@ -136,7 +146,7 @@ $.fn.extend({
                             return data[matched];
                         });
 
-                        $(field).val(value);
+                        $(exception).val(value);
                         close();
                     });
                 }
@@ -226,14 +236,27 @@ $.fn.extend({
             } else {
                 close();
             }
+
+            $(document).on('click', function (event) {
+                let target = $(event.target), targetClassAll = '';
+
+                if (target.attr('class')) {
+                    let targetClass = target.attr('class').split(" ");
+                    for (let i = 0; i < targetClass.length; i++) {
+                        targetClassAll += '.' + targetClass[i];
+                    }
+                }
+
+                if (!target.closest('.nh-picker').length && !target.is(exception)) {
+                    close();
+
+                    if (targetClassAll && fieldClassesArray.includes(targetClassAll)) {
+                        $(targetClassAll).click();
+                    }
+                }
+            });
         });
 
-        $(document).on('click', function (event) {
-            let target = $(event.target);
-            if (!target.closest('.nh-picker').length && !target.is('.' + exception)) {
-                close();
-            }
-        });
 
         function addZero(number) {
             return String(number).padStart(2, '0');

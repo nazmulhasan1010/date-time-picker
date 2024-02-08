@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -9,46 +11,82 @@ body {
   height: 100vh;
   width: 100%;
   display: flex;
-  //justify-content: center;
+  justify-content: center;
   align-items: center;
 }
 
 .nh-picker {
   height: auto;
   width: 300px;
-  background-color: aqua;
-  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.32);
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  padding: 10px;
   border-radius: 5px;
   position: absolute;
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -8.5px;
+    left: calc(50% - 7.5px);
+    transform: rotate(45deg);
+    height: 15px;
+    width: 15px;
+    border-radius: 5px 0 20px 0;
+    border: 1px solid rgba(91, 66, 243, 0.79);
+    border-right: none;
+    border-bottom: none;
+    background-color: rgba(255, 255, 255, 1);
+  }
 
   .nh-datepicker-calendar {
     height: 100%;
     width: 100%;
-    background-color: tomato;
 
     .nh-calendar-header {
       display: grid;
       justify-content: space-between;
       align-content: center;
+      align-items: center;
       grid-template-columns: repeat(3, auto);
       padding: 2px 5px;
-      background-color: #cccccc;
 
       .nh-header-content-text {
         text-align: center;
         text-transform: capitalize;
       }
+
+      span {
+        button {
+          background: none;
+          outline: none;
+          padding: 5px 20px;
+          border: 1px solid rgba(91, 66, 243, 0.79);
+          border-radius: 20px;
+        }
+
+        &.nh-prev-month, &.nh-next-month {
+          padding: 5px 10px;
+          border: 1px solid rgba(91, 66, 243, 0.79);
+          border-radius: 20px;
+        }
+      }
     }
 
     .nh-calendar-days {
+      margin-top: 10px;
+
       .nh-day-names, .nh-day-date {
         display: grid;
         grid-template-columns: repeat(7, auto);
         gap: 1px;
 
         span {
+          //@include span-hover;
           text-align: center;
-          background-color: red;
+          font-weight: bold;
           text-transform: uppercase;
           padding: 3px 0;
           font-size: 16px;
@@ -57,7 +95,8 @@ body {
 
       .nh-day-date {
         span {
-          background-color: #fff;
+          font-weight: normal;
+          margin: 10px 0;
         }
       }
     }
@@ -66,13 +105,16 @@ body {
       display: grid;
       grid-template-columns: repeat(5, auto);
       gap: 1px;
+      margin-top: 10px;
 
       span {
+        //@include span-hover;
         text-align: center;
         background-color: #fff;
         text-transform: uppercase;
         padding: 3px 0;
         font-size: 16px;
+        margin: 10px 0;
       }
     }
 
@@ -80,19 +122,22 @@ body {
       display: grid;
       grid-template-columns: repeat(3, auto);
       gap: 1px;
+      margin-top: 10px;
 
       span {
+        //@include span-hover;
         text-align: center;
         background-color: #fff;
         text-transform: capitalize;
         padding: 3px 0;
         font-size: 16px;
+        margin: 10px 0;
       }
     }
 
     .nh-span-active {
-      background-color: green !important;
-      color: aqua;
+      background-color: rgba(91, 66, 243, 0.79) !important;
+      color: #fff !important;
     }
 
     .nh-active {
@@ -101,6 +146,13 @@ body {
 
     .nh-inactive {
       display: none !important;
+    }
+  }
+
+  @mixin span-hover {
+    &:hover {
+      background-color: rgba(91, 66, 243, 0.79) !important;
+      color: #fff !important;
     }
   }
 }
