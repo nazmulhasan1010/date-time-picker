@@ -102,12 +102,19 @@ body {
         gap: 1px;
 
         span {
-          @include span-hover;
           text-align: center;
           font-weight: bold;
           text-transform: uppercase;
           padding: 3px 0;
           font-size: 16px;
+
+          &.nh-current {
+            @include span-hover;
+          }
+
+          &.nh-previous-days, &.nh-next-days {
+            color: rgba(2, 0, 0, 0.50);
+          }
         }
       }
 

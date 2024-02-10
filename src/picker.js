@@ -118,26 +118,35 @@ $.fn.extend({
                     }
 
                     let days = getDaysInMonth(year, month), dayNumber = getDayOfWeek(year, month),
-                        dayDate = $('.nh-day-date');
+                        dayDate = $('.nh-day-date'), previousMonth = getDaysInMonth(year, (month - 1)),
+                        previousMonthDate = (previousMonth - (dayNumber - 2)),
+                        nextMonthDays = 42 - (days + (dayNumber - 1));
+
 
                     $(cuMonthYear).children('button:first').text(months[month])
                     $(cuMonthYear).children('button:nth-child(2)').text(year)
 
                     $(dayDate).empty();
-                    for (let i = 1; i <= days; i++) {
-                        $(dayDate).append($('<span>', {'data-value': i, text: i}));
+
+                    for (let i = previousMonthDate; i <= previousMonth; i++) {
+                        $(dayDate).append($('<span>', {text: i, class: 'nh-previous-days'}));
                     }
 
-                    $(dayDate).children('span:first').css('grid-column', dayNumber)
+                    for (let i = 1; i <= days; i++) {
+                        $(dayDate).append($('<span>', {'data-value': i, text: i, class: 'nh-current'}));
+                    }
 
-                    if (new Date().getMonth() === month && new Date().getFullYear() === year) $(dayDate).children(`span:nth-child(${day})`).addClass('nh-span-active');
+                    for (let i = 1; i <= nextMonthDays; i++) {
+                        $(dayDate).append($('<span>', {text: i, class: 'nh-next-days'}));
+                    }
+                    // $(dayDate).children('span:first').css('grid-column', dayNumber);
 
-                    $(dayDate).children('span').click(function () {
+                    if (new Date().getMonth() === month && new Date().getFullYear() === year) $(dayDate).children(`span:nth-child(${day + (dayNumber - 1)})`).addClass('nh-span-active');
+
+                    $(dayDate).children('span.nh-current').click(function () {
                         let value, selectedDate = addZero($(this).data('value')), selectedMonth = addZero(month + 1);
                         let data = {
-                            dd: selectedDate,
-                            mm: selectedMonth,
-                            yyyy: year
+                            dd: selectedDate, mm: selectedMonth, yyyy: year
                         };
 
                         let expression = new RegExp(Object.keys(data).join("|"), "gi");

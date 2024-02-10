@@ -90,10 +90,13 @@ body {
   padding: 3px 0;
   font-size: 16px;
 }
-.nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span:hover, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span:hover {
+.nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-current:hover, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-current:hover {
   background-color: rgba(91, 66, 243, 0.79) !important;
   color: #fff !important;
   border-radius: 3px;
+}
+.nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-previous-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-next-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-previous-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-next-days {
+  color: rgba(2, 0, 0, 0.5);
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span {
   font-weight: normal;
