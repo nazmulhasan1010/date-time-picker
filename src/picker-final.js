@@ -2,12 +2,10 @@ $.fn.extend({
     picker: function (options = {}) {
         let body = $('body'), elements = $(this), div = '<div>', span = '<span>', picker = $(div, {class: 'nh-picker'}),
             calendar = $(div, {class: 'nh-datepicker-calendar'}), headerSection = $(div, {class: 'nh-calendar-header'}),
-            open = false, formatOp = options.format ?? 'dd/mm/yyyy', minDateOp = options.minDate ?? null,
-            maxDateOp = options.maxDate ?? null;
-
+            open = false, formatOp = options.format ?? 'dd/mm/yyyy';
         headerSection.append($(span, {
             class: 'nh-header-content nh-prev-month', html: '&lt;'
-        })).append($(span, {class: 'nh-header-content nh-current-month-year',}).append('<button></button>  <button></button>')).append($(span, {class: 'nh-header-content-text nh-inactive'})).append($(span, {
+        })).append($(span, {class: 'nh-header-content nh-current-month-year',}).append('<button></button>  <button></button>')).append($(span, {class: 'nh-header-content-text nh-next-month nh-inactive'})).append($(span, {
             class: 'nh-header-content nh-next-month', html: '&gt;'
         }));
 
@@ -44,6 +42,7 @@ $.fn.extend({
 
         $(fieldClasses).click(function () {
             let pickerActiveClass = $(this).attr('class').split(" "), format = $(this).data('nhDateFormat') ?? formatOp;
+            console.log($(this).data('nhDateFormat') ?? format)
 
             if (open === false) {
                 exception = '';
@@ -85,8 +84,10 @@ $.fn.extend({
                     $('.nh-day-names').append($('<span>', {text: name}));
                 });
 
-                let maxDate = $(this).data('nhMaxDate') ? dateInitialize($(this).data('nhMaxDate'), format) : dateInitialize(maxDateOp, format),
-                    minDate = $(this).data('nhMinDate') ? dateInitialize($(this).data('nhMinDate'), format) : dateInitialize(minDateOp, format);
+                $(monthSection).empty();
+                $.each(months, function (index, name) {
+                    $(monthSection).append($('<span>', {'data-value': index, text: name}));
+                });
 
                 $(cuMonthYear).children('button:first').click(function () {
                     contentShowing($(monthSection), 'month');
@@ -96,11 +97,9 @@ $.fn.extend({
                     contentShowing($(yearSection), 'year')
                 })
 
-                let previewButton = $('.nh-prev-month'), nextButton = $('.nh-next-month');
+                calenderShowing(cuDate, cuYear, cuMonth, today);
 
-                calenderShowing(cuDate, cuYear, cuMonth, today, maxDate ?? null, minDate ?? null, 'start');
-
-                function calenderShowing(date, year, month, day, mxLast = null, mnLast = null, start = null) {
+                function calenderShowing(date, year, month, day) {
                     $(content).removeClass('nh-active').addClass('nh-inactive');
                     $('.nh-calendar-days').removeClass('nh-inactive').addClass('nh-active');
                     $('.nh-header-content').show();
@@ -124,7 +123,7 @@ $.fn.extend({
 
                     $(cuMonthYear).children('button:first').text(months[month])
                     $(cuMonthYear).children('button:nth-child(2)').text(year)
-                    $('.nh-next-month,.nh-prev-month').removeClass('inactive');
+
                     $(dayDate).empty();
 
                     for (let i = previousMonthDate; i <= previousMonth; i++) {
@@ -132,20 +131,13 @@ $.fn.extend({
                     }
 
                     for (let i = 1; i <= days; i++) {
-                        if (mnLast && i < mnLast && !start || start && mnLast && mnLast.getMonth() >= month && mnLast.getFullYear() >= year && i < mnLast.getDate()) {
-                            $(previewButton).addClass('inactive');
-                            $(dayDate).append($('<span>', {'data-value': i, text: i, class: 'nh-current-disable'}));
-                        } else if (mxLast && i > mxLast && !start || start && mxLast && mxLast.getMonth() <= month && mxLast.getFullYear() <= year && i > mxLast.getDate()) {
-                            $(nextButton).addClass('inactive');
-                            $(dayDate).append($('<span>', {'data-value': i, text: i, class: 'nh-current-disable'}));
-                        } else {
-                            $(dayDate).append($('<span>', {'data-value': i, text: i, class: 'nh-current'}));
-                        }
+                        $(dayDate).append($('<span>', {'data-value': i, text: i, class: 'nh-current'}));
                     }
 
                     for (let i = 1; i <= nextMonthDays; i++) {
                         $(dayDate).append($('<span>', {text: i, class: 'nh-next-days'}));
                     }
+                    // $(dayDate).children('span:first').css('grid-column', dayNumber);
 
                     if (new Date().getMonth() === month && new Date().getFullYear() === year) $(dayDate).children(`span:nth-child(${day + (dayNumber - 1)})`).addClass('nh-span-active');
 
@@ -166,7 +158,7 @@ $.fn.extend({
                     });
                 }
 
-                function yearsShowing(from, year = null, mxYear = null, mnYear = null) {
+                function yearsShowing(from, year = null) {
                     let fromYear, toYear;
                     $(cuMonthYear).hide();
                     yearSection.empty();
@@ -179,95 +171,48 @@ $.fn.extend({
                         yearShow(from, toYear)
                     }
 
-                    $('.nh-next-month,.nh-prev-month').removeClass('inactive');
-                    if (mxYear && toYear >= mxYear.getFullYear()) {
-                        $(nextButton).addClass('inactive');
-                    }
-
-                    if (mnYear && fromYear <= mnYear.getFullYear() || from <= mnYear.getFullYear()) {
-                        $(previewButton).addClass('inactive');
-                    }
-
                     function yearShow(fromYear, toYear) {
                         for (let i = fromYear; i <= toYear; i++) {
-                            if (mxYear && i > mxYear.getFullYear()) {
-                                $(yearSection).append($('<span>', {
-                                    'data-value': i,
-                                    text: i,
-                                    class: 'nh-current-disable'
-                                }));
-                            } else if (mnYear && i < mnYear.getFullYear()) {
-                                $(yearSection).append($('<span>', {
-                                    'data-value': i,
-                                    text: i,
-                                    class: 'nh-current-disable'
-                                }));
+                            if (new Date().getFullYear() === i) {
+                                $(yearSection).append($('<span>', {'data-value': i, text: i, class: 'nh-span-active'}));
                             } else {
-                                $(yearSection).append($('<span>', {'data-value': i, text: i, class: 'nh-year-valid'}));
+                                $(yearSection).append($('<span>', {'data-value': i, text: i}));
                             }
                         }
-                        $('span[data-value="' + new Date().getFullYear() + '"]').addClass('nh-span-active');
                     }
 
-                    $(yearSection).children('span.nh-year-valid').click(function () {
+                    $(yearSection).children('span').click(function () {
                         let year = $(this).data('value');
                         cuYear = year;
                         contentShowing($(monthSection), 'month', year)
                     });
                 }
 
-                let mxLast = null, mnLast = null;
-                $(previewButton).click(function () {
-                    if (!$(this).hasClass('inactive')) {
-                        if ($(yearSection).hasClass('nh-active')) {
-                            let currentFirst = $('.nh-years.nh-active').children('span:first').data('value');
-                            yearsShowing(currentFirst - 30, null, maxDate ?? null, minDate ?? null);
-                        } else if ($('.nh-calendar-days').hasClass('nh-active')) {
-                            --cuMonth
-                            if (cuMonth < 0) {
-                                cuMonth = 11;
-                                cuYear -= 1;
-                            }
-                            if (minDate && minDate.getMonth() >= cuMonth && minDate.getFullYear() >= cuYear) {
-                                $(this).addClass('inactive');
-                                mnLast = minDate.getDate();
-                            } else {
-                                $(this).removeClass('inactive');
-                                mnLast = null;
-                            }
-                            if (maxDate && maxDate.getMonth() > cuMonth && maxDate.getFullYear() >= cuYear) {
-                                $(nextButton).removeClass('inactive');
-                            }
-
-                            calenderShowing(cuDate, cuYear, cuMonth, today, null, mnLast)
+                $('.nh-prev-month').click(function () {
+                    if ($(yearSection).hasClass('nh-active')) {
+                        let currentFirst = $('.nh-years.nh-active').children('span:first').data('value');
+                        yearsShowing(currentFirst - 30)
+                    } else if ($('.nh-calendar-days').hasClass('nh-active')) {
+                        --cuMonth
+                        if (cuMonth < 0) {
+                            cuMonth = 11;
+                            cuYear -= 1;
                         }
+                        calenderShowing(cuDate, cuYear, cuMonth, today)
                     }
                 })
 
-                $(nextButton).click(function () {
-                    if (!$(this).hasClass('inactive')) {
-                        if ($(yearSection).hasClass('nh-active')) {
-                            let currentFirst = $('.nh-years.nh-active').children('span:last').data('value');
-                            yearsShowing(currentFirst + 1, null, maxDate ?? null, minDate ?? null);
-                        } else if ($('.nh-calendar-days').hasClass('nh-active')) {
-                            ++cuMonth
-                            if (cuMonth >= 12) {
-                                cuMonth = 0;
-                                cuYear += 1;
-                            }
-                            if (maxDate && maxDate.getMonth() <= cuMonth && maxDate.getFullYear() <= cuYear) {
-                                $(this).addClass('inactive');
-                                mxLast = maxDate.getDate();
-                            } else {
-                                $(this).removeClass('inactive');
-                                mxLast = null;
-                            }
-                            if (minDate && minDate.getMonth() < cuMonth && minDate.getFullYear() <= cuYear) {
-                                $(previewButton).removeClass('inactive');
-                            }
-
-                            calenderShowing(cuDate, cuYear, cuMonth, today, mxLast)
+                $('.nh-next-month').click(function () {
+                    if ($(yearSection).hasClass('nh-active')) {
+                        let currentFirst = $('.nh-years.nh-active').children('span:last').data('value');
+                        yearsShowing(currentFirst + 1)
+                    } else if ($('.nh-calendar-days').hasClass('nh-active')) {
+                        ++cuMonth
+                        if (cuMonth >= 12) {
+                            cuMonth = 0;
+                            cuYear += 1;
                         }
+                        calenderShowing(cuDate, cuYear, cuMonth, today)
                     }
                 })
 
@@ -277,30 +222,6 @@ $.fn.extend({
                     $('.nh-header-content-text').removeClass('nh-inactive').text(name);
 
                     if (name === 'month') {
-                        $(monthSection).empty();
-                        console.log(cuYear, cuMonth)
-                        $.each(months, function (index, name) {
-                            if (maxDate && cuYear === maxDate.getFullYear() && index >= maxDate.getMonth()) {
-                                $(monthSection).append($('<span>', {
-                                    'data-value': index,
-                                    text: name,
-                                    class: 'nh-current-disable'
-                                }));
-                            } else if (minDate && cuYear === minDate.getFullYear() && index <= minDate.getMonth()) {
-                                $(monthSection).append($('<span>', {
-                                    'data-value': index,
-                                    text: name,
-                                    class: 'nh-current-disable'
-                                }));
-                            } else {
-                                $(monthSection).append($('<span>', {
-                                    'data-value': index,
-                                    text: name,
-                                    class: 'nh-month-valid'
-                                }));
-                            }
-                        });
-
                         $('.nh-header-content').hide();
                         $(header).css('grid-template-columns', 'repeat(1, 100%)');
                     }
@@ -308,45 +229,13 @@ $.fn.extend({
                     if (name === 'year') {
                         $('.nh-header-content').show();
                         $(cuMonthYear).hide();
-                        yearsShowing('current', cuYear, maxDate ?? null, minDate ?? null);
+                        yearsShowing('current', cuYear);
                     }
 
-                    $(monthSection).children('span.nh-month-valid').click(function () {
+                    $(monthSection).children('span').click(function () {
                         let month = $(this).data('value');
                         cuMonth = month;
                         calenderShowing(cuDate, cuYear, month, today)
-                    });
-                }
-
-                function dateInitialize(dateValue, formatValue) {
-                    if (dateValue) {
-                        let date = dateValue.split(/[^a-zA-Z0-9]+/),
-                            format = formatValue.split(/[^a-zA-Z0-9]+/);
-                        let pDate, pMonth, pYear;
-                        format.forEach(function (data, index) {
-                            if (data === 'dd') {
-                                pDate = parseInt(date[index]);
-                            }
-                            if (data === 'mm') {
-                                if (months.includes(capitalizeWords(date[index]))) {
-                                    pMonth = months.indexOf(capitalizeWords(date[index])) + 1;
-                                } else {
-                                    pMonth = parseInt(date[index]);
-                                }
-                            }
-                            if (data === 'yyyy') {
-                                pYear = parseInt(date[index]);
-                            }
-                        });
-
-                        return new Date(pYear, pMonth - 1, pDate);
-                    }
-                    return null
-                }
-
-                function capitalizeWords(str) {
-                    return str.replace(/\b\w/g, function (char) {
-                        return char.toUpperCase();
                     });
                 }
 
@@ -384,7 +273,6 @@ $.fn.extend({
         }
 
         function close() {
-            $('.nh-next-month,.nh-prev-month').removeClass('inactive');
             $(picker).remove();
             open = false;
         }

@@ -62,6 +62,7 @@ body {
       padding: 2px 5px;
 
       .nh-header-content-text {
+        padding: 2px 25px !important;
         text-align: center;
         text-transform: capitalize;
       }
@@ -73,6 +74,7 @@ body {
           padding: 5px 20px;
           border: 1px solid rgba(91, 66, 243, 0.79);
           border-radius: 20px;
+          user-select: none;
 
           &:hover {
             background-color: rgba(91, 66, 243, 0.79) !important;
@@ -80,12 +82,20 @@ body {
           }
         }
 
+        &.nh-header-content-text {
+          padding: 5px 10px;
+          border: 1px solid rgba(91, 66, 243, 0.79);
+          border-radius: 20px;
+          user-select: none;
+        }
+
         &.nh-prev-month, &.nh-next-month {
           padding: 5px 10px;
           border: 1px solid rgba(91, 66, 243, 0.79);
           border-radius: 20px;
+          user-select: none;
 
-          &:hover {
+          &:not(.inactive):hover {
             background-color: rgba(91, 66, 243, 0.79) !important;
             color: #fff !important;
           }
@@ -112,6 +122,10 @@ body {
             @include span-hover;
           }
 
+          &.nh-current-disable {
+            color: rgba(2, 0, 0, 0.50);
+          }
+
           &.nh-previous-days, &.nh-next-days {
             color: rgba(2, 0, 0, 0.50);
           }
@@ -133,13 +147,20 @@ body {
       margin-top: 10px;
 
       span {
-        @include span-hover;
         text-align: center;
         background-color: #fff;
         text-transform: uppercase;
         padding: 3px 0;
         font-size: 16px;
         margin: 10px 0;
+
+        &.nh-current-disable {
+          color: rgba(2, 0, 0, 0.50);
+        }
+
+        &.nh-year-valid {
+          @include span-hover;
+        }
       }
     }
 
@@ -150,13 +171,20 @@ body {
       margin-top: 10px;
 
       span {
-        @include span-hover;
         text-align: center;
         background-color: #fff;
         text-transform: capitalize;
         padding: 3px 0;
         font-size: 16px;
         margin: 10px 0;
+
+        &.nh-current-disable {
+          color: rgba(2, 0, 0, 0.50);
+        }
+
+        &.nh-month-valid {
+          @include span-hover;
+        }
       }
     }
 

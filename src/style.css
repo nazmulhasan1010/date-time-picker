@@ -52,6 +52,7 @@ body {
   padding: 2px 5px;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-header .nh-header-content-text {
+  padding: 2px 25px !important;
   text-align: center;
   text-transform: capitalize;
 }
@@ -61,17 +62,25 @@ body {
   padding: 5px 20px;
   border: 1px solid rgba(91, 66, 243, 0.79);
   border-radius: 20px;
+  user-select: none;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span button:hover {
   background-color: rgba(91, 66, 243, 0.79) !important;
   color: #fff !important;
 }
+.nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-header-content-text {
+  padding: 5px 10px;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  border-radius: 20px;
+  user-select: none;
+}
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month {
   padding: 5px 10px;
   border: 1px solid rgba(91, 66, 243, 0.79);
   border-radius: 20px;
+  user-select: none;
 }
-.nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month:hover, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month:hover {
+.nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month:not(.inactive):hover, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month:not(.inactive):hover {
   background-color: rgba(91, 66, 243, 0.79) !important;
   color: #fff !important;
 }
@@ -95,6 +104,9 @@ body {
   color: #fff !important;
   border-radius: 3px;
 }
+.nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-current-disable, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-current-disable {
+  color: rgba(2, 0, 0, 0.5);
+}
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-previous-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-next-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-previous-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-next-days {
   color: rgba(2, 0, 0, 0.5);
 }
@@ -116,7 +128,10 @@ body {
   font-size: 16px;
   margin: 10px 0;
 }
-.nh-picker .nh-datepicker-calendar .nh-years span:hover {
+.nh-picker .nh-datepicker-calendar .nh-years span.nh-current-disable {
+  color: rgba(2, 0, 0, 0.5);
+}
+.nh-picker .nh-datepicker-calendar .nh-years span.nh-year-valid:hover {
   background-color: rgba(91, 66, 243, 0.79) !important;
   color: #fff !important;
   border-radius: 3px;
@@ -135,7 +150,10 @@ body {
   font-size: 16px;
   margin: 10px 0;
 }
-.nh-picker .nh-datepicker-calendar .nh-month span:hover {
+.nh-picker .nh-datepicker-calendar .nh-month span.nh-current-disable {
+  color: rgba(2, 0, 0, 0.5);
+}
+.nh-picker .nh-datepicker-calendar .nh-month span.nh-month-valid:hover {
   background-color: rgba(91, 66, 243, 0.79) !important;
   color: #fff !important;
   border-radius: 3px;
