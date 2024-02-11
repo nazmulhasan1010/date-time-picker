@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-<input type="text" class="picker pic" data-nh-date-format="yyyy/mm/dd">
-<input type="text" class="picker pic">
+<input type="text" class="picker pic" data-nh-date-format="yyyy-mm-dd" data-nh-min-date="5/7/2022" data-nh-max-date="20/6/2024">
+<input type="text" class="picker pic" data-nh-today="true">
 <input type="text" class="picker pic">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -20,7 +20,8 @@
         $('.picker').picker({
             format: 'dd-mm-yyyy',
             minDate: '5/2/2023',
-            maxDate: '25/8/2024'
+            maxDate: '25/8/2024',
+            today: false,
         });
     });
 </script>

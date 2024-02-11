@@ -6,28 +6,40 @@
   box-sizing: border-box;
 }
 
+$colorBlue: rgba(91, 66, 243, 0.79);
+$colorWhite : #fff;
+$colorBlack-50 : rgba(2, 0, 0, 0.50);
+$colorGray : rgba(255, 255, 255, 0.32);
+
 body {
   font-family: Arial, sans-serif;
   height: 100vh;
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: flex-end;
 }
 
 @mixin span-hover {
   &:hover {
-    background-color: rgba(91, 66, 243, 0.79) !important;
-    color: #fff !important;
+    background-color: $colorBlue !important;
+    color: $colorWhite !important;
     border-radius: 3px;
+  }
+}
+@mixin span-hover-r($radius) {
+  &:hover {
+    background-color: $colorBlue !important;
+    color: $colorWhite !important;
+    border-radius: $radius;
   }
 }
 
 .nh-picker {
   height: auto;
   width: 300px;
-  background-color: rgba(255, 255, 255, 0.32);
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  background-color: $colorWhite;
+  border: 1px solid $colorBlue;
   padding: 10px;
   border-radius: 5px;
   position: absolute;
@@ -43,10 +55,10 @@ body {
     height: 15px;
     width: 15px;
     border-radius: 5px 0 20px 0;
-    border: 1px solid rgba(91, 66, 243, 0.79);
+    border: 1px solid $colorBlue;
     border-right: none;
     border-bottom: none;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: $colorWhite;
   }
 
   .nh-datepicker-calendar {
@@ -72,32 +84,32 @@ body {
           background: none;
           outline: none;
           padding: 5px 20px;
-          border: 1px solid rgba(91, 66, 243, 0.79);
+          border: 1px solid $colorBlue;
           border-radius: 20px;
           user-select: none;
 
           &:hover {
-            background-color: rgba(91, 66, 243, 0.79) !important;
-            color: #fff !important;
+            background-color: $colorBlue !important;
+            color: $colorWhite !important;
           }
         }
 
         &.nh-header-content-text {
           padding: 5px 10px;
-          border: 1px solid rgba(91, 66, 243, 0.79);
+          border: 1px solid $colorBlue;
           border-radius: 20px;
           user-select: none;
         }
 
         &.nh-prev-month, &.nh-next-month {
           padding: 5px 10px;
-          border: 1px solid rgba(91, 66, 243, 0.79);
+          border: 1px solid $colorBlue;
           border-radius: 20px;
           user-select: none;
 
           &:not(.inactive):hover {
-            background-color: rgba(91, 66, 243, 0.79) !important;
-            color: #fff !important;
+            background-color: $colorBlue !important;
+            color: $colorWhite !important;
           }
         }
       }
@@ -123,11 +135,11 @@ body {
           }
 
           &.nh-current-disable {
-            color: rgba(2, 0, 0, 0.50);
+            color: $colorBlack-50;
           }
 
           &.nh-previous-days, &.nh-next-days {
-            color: rgba(2, 0, 0, 0.50);
+            color: $colorBlack-50;
           }
         }
       }
@@ -135,7 +147,7 @@ body {
       .nh-day-date {
         span {
           font-weight: normal;
-          margin: 10px 0;
+          margin: 5px 0;
         }
       }
     }
@@ -148,14 +160,14 @@ body {
 
       span {
         text-align: center;
-        background-color: #fff;
+        background-color: $colorWhite;
         text-transform: uppercase;
         padding: 3px 0;
         font-size: 16px;
-        margin: 10px 0;
+        margin: 5px 0;
 
         &.nh-current-disable {
-          color: rgba(2, 0, 0, 0.50);
+          color: $colorBlack-50;
         }
 
         &.nh-year-valid {
@@ -172,14 +184,14 @@ body {
 
       span {
         text-align: center;
-        background-color: #fff;
+        background-color: $colorWhite;
         text-transform: capitalize;
         padding: 3px 0;
         font-size: 16px;
-        margin: 10px 0;
+        margin: 5px 0;
 
         &.nh-current-disable {
-          color: rgba(2, 0, 0, 0.50);
+          color: $colorBlack-50;
         }
 
         &.nh-month-valid {
@@ -188,9 +200,24 @@ body {
       }
     }
 
+    .nh-today-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      button{
+        background: none;
+        outline: none;
+        padding: 5px 20px;
+        border: 1px solid $colorBlue;
+        border-radius: 20px;
+        user-select: none;
+        @include span-hover-r(20px);
+      }
+    }
+
     .nh-span-active {
-      background-color: rgba(91, 66, 243, 0.79) !important;
-      color: #fff !important;
+      background-color: $colorBlue !important;
+      color: $colorWhite !important;
       border-radius: 3px;
     }
 

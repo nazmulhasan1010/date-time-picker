@@ -3,7 +3,7 @@ $.fn.extend({
         let body = $('body'), elements = $(this), div = '<div>', span = '<span>', picker = $(div, {class: 'nh-picker'}),
             calendar = $(div, {class: 'nh-datepicker-calendar'}), headerSection = $(div, {class: 'nh-calendar-header'}),
             open = false, formatOp = options.format ?? 'dd/mm/yyyy', minDateOp = options.minDate ?? null,
-            maxDateOp = options.maxDate ?? null;
+            maxDateOp = options.maxDate ?? null, todayOp = options.today ?? false;
 
         headerSection.append($(span, {
             class: 'nh-header-content nh-prev-month', html: '&lt;'
@@ -22,6 +22,9 @@ $.fn.extend({
                 id: $(element).attr('id'),
                 placeholder: $(element).attr('placeholder'),
                 'data-nh-date-format': $(element).data('nhDateFormat'),
+                'data-nh-today': $(element).data('nhToday'),
+                'data-nh-min-date': $(element).data('nhMinDate'),
+                'data-nh-max-date': $(element).data('nhMaxDate'),
             });
 
             let comma = ',', fieldClasses = $(field).attr('class').split(" "), singleElementClass = '';
@@ -43,7 +46,8 @@ $.fn.extend({
         let fieldClassesArray = fieldClasses.split(',');
 
         $(fieldClasses).click(function () {
-            let pickerActiveClass = $(this).attr('class').split(" "), format = $(this).data('nhDateFormat') ?? formatOp;
+            let pickerActiveClass = $(this).attr('class').split(" "), format = $(this).data('nhDateFormat') ?? formatOp,
+                todayActive = $(this).data('nhToday') ?? todayOp;
 
             if (open === false) {
                 exception = '';
@@ -51,12 +55,19 @@ $.fn.extend({
                     exception += '.' + pickerActiveClass[i];
                 }
 
+                if (todayActive) {
+                    $(calendar).children('.nh-today-section').remove();
+                    calendar.append($($('<div>', {class: 'nh-today-section'})).append('<button>Today</button>'))
+                } else {
+                    $(calendar).children('.nh-today-section').remove();
+                }
+
                 $(body).append(picker);
                 let pickerWidth = $(picker).outerWidth();
 
-                let bodyWidth = $(document.body).width();
+                let bodyWidth = $(document.body).width(), bodyHeight = $(document.body).height();
 
-                let left = $(this).position().left, width = $(this).outerWidth(), right = (bodyWidth - (width + left)),
+                let left = $(this).offset().left, width = $(this).outerWidth(), right = (bodyWidth - (width + left)),
                     height = $(this).outerHeight(), top = $(this).offset().top;
 
                 let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
@@ -66,7 +77,7 @@ $.fn.extend({
                 if (right < leftCut) {
                     leftPosition = left - (leftCut * 2);
                 }
-
+                console.log(bodyHeight,top)
                 $(picker).css({
                     left: leftPosition, top: top + height + 12,
                 })
@@ -94,6 +105,12 @@ $.fn.extend({
 
                 $(cuMonthYear).children('button:nth-child(2)').click(function () {
                     contentShowing($(yearSection), 'year')
+                })
+
+                $('.nh-today-section button').click(function () {
+                    let todayDate = addZero(cuDate.getDate()), todayMonth = addZero(cuDate.getMonth() + 1);
+                    $(exception).val(dateFormating(todayDate, todayMonth, cuDate.getFullYear()));
+                    close();
                 })
 
                 let previewButton = $('.nh-prev-month'), nextButton = $('.nh-next-month');
@@ -147,23 +164,27 @@ $.fn.extend({
                         $(dayDate).append($('<span>', {text: i, class: 'nh-next-days'}));
                     }
 
-                    if (new Date().getMonth() === month && new Date().getFullYear() === year) $(dayDate).children(`span:nth-child(${day + (dayNumber - 1)})`).addClass('nh-span-active');
+                    if (cuDate.getMonth() === month && cuDate.getFullYear() === year) $(dayDate).children(`span:nth-child(${day + (dayNumber - 1)})`).addClass('nh-span-active');
 
                     $(dayDate).children('span.nh-current').click(function () {
-                        let value, selectedDate = addZero($(this).data('value')), selectedMonth = addZero(month + 1);
-                        let data = {
-                            dd: selectedDate, mm: selectedMonth, yyyy: year
-                        };
-
-                        let expression = new RegExp(Object.keys(data).join("|"), "gi");
-
-                        value = format.replace(expression, function (matched) {
-                            return data[matched];
-                        });
-
-                        $(exception).val(value);
+                        let selectedDate = addZero($(this).data('value')), selectedMonth = addZero(month + 1);
+                        $(exception).val(dateFormating(selectedDate, selectedMonth, year));
                         close();
                     });
+                }
+
+                function dateFormating(selectedDate, selectedMonth, selectedYear) {
+                    let value;
+                    let data = {
+                        dd: selectedDate, mm: selectedMonth, yyyy: selectedYear
+                    };
+
+                    let expression = new RegExp(Object.keys(data).join("|"), "gi");
+
+                    value = format.replace(expression, function (matched) {
+                        return data[matched];
+                    });
+                    return value;
                 }
 
                 function yearsShowing(from, year = null, mxYear = null, mnYear = null) {
@@ -206,7 +227,7 @@ $.fn.extend({
                                 $(yearSection).append($('<span>', {'data-value': i, text: i, class: 'nh-year-valid'}));
                             }
                         }
-                        $('span[data-value="' + new Date().getFullYear() + '"]').addClass('nh-span-active');
+                        $('span[data-value="' + cuDate.getFullYear() + '"]').addClass('nh-span-active');
                     }
 
                     $(yearSection).children('span.nh-year-valid').click(function () {
@@ -278,24 +299,23 @@ $.fn.extend({
 
                     if (name === 'month') {
                         $(monthSection).empty();
-                        console.log(cuYear, cuMonth)
                         $.each(months, function (index, name) {
                             if (maxDate && cuYear === maxDate.getFullYear() && index >= maxDate.getMonth()) {
                                 $(monthSection).append($('<span>', {
                                     'data-value': index,
-                                    text: name,
+                                    text: name.substring(0, 3),
                                     class: 'nh-current-disable'
                                 }));
                             } else if (minDate && cuYear === minDate.getFullYear() && index <= minDate.getMonth()) {
                                 $(monthSection).append($('<span>', {
                                     'data-value': index,
-                                    text: name,
+                                    text: name.substring(0, 3),
                                     class: 'nh-current-disable'
                                 }));
                             } else {
                                 $(monthSection).append($('<span>', {
                                     'data-value': index,
-                                    text: name,
+                                    text: name.substring(0, 3),
                                     class: 'nh-month-valid'
                                 }));
                             }

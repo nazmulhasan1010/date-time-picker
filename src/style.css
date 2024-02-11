@@ -10,14 +10,14 @@ body {
   height: 100vh;
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: flex-end;
 }
 
 .nh-picker {
   height: auto;
   width: 300px;
-  background-color: rgba(255, 255, 255, 0.32);
+  background-color: #fff;
   border: 1px solid rgba(91, 66, 243, 0.79);
   padding: 10px;
   border-radius: 5px;
@@ -37,7 +37,7 @@ body {
   border: 1px solid rgba(91, 66, 243, 0.79);
   border-right: none;
   border-bottom: none;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
 }
 .nh-picker .nh-datepicker-calendar {
   height: 100%;
@@ -112,7 +112,7 @@ body {
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span {
   font-weight: normal;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .nh-picker .nh-datepicker-calendar .nh-years {
   display: grid;
@@ -126,7 +126,7 @@ body {
   text-transform: uppercase;
   padding: 3px 0;
   font-size: 16px;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .nh-picker .nh-datepicker-calendar .nh-years span.nh-current-disable {
   color: rgba(2, 0, 0, 0.5);
@@ -148,7 +148,7 @@ body {
   text-transform: capitalize;
   padding: 3px 0;
   font-size: 16px;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .nh-picker .nh-datepicker-calendar .nh-month span.nh-current-disable {
   color: rgba(2, 0, 0, 0.5);
@@ -157,6 +157,24 @@ body {
   background-color: rgba(91, 66, 243, 0.79) !important;
   color: #fff !important;
   border-radius: 3px;
+}
+.nh-picker .nh-datepicker-calendar .nh-today-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nh-picker .nh-datepicker-calendar .nh-today-section button {
+  background: none;
+  outline: none;
+  padding: 5px 20px;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  border-radius: 20px;
+  user-select: none;
+}
+.nh-picker .nh-datepicker-calendar .nh-today-section button:hover {
+  background-color: rgba(91, 66, 243, 0.79) !important;
+  color: #fff !important;
+  border-radius: 20px;
 }
 .nh-picker .nh-datepicker-calendar .nh-span-active {
   background-color: rgba(91, 66, 243, 0.79) !important;
