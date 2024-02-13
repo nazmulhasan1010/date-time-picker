@@ -7,17 +7,17 @@
 }
 
 $colorBlue: rgba(91, 66, 243, 0.79);
-$colorWhite : #fff;
-$colorBlack-50 : rgba(2, 0, 0, 0.50);
-$colorGray : rgba(255, 255, 255, 0.32);
+$colorWhite: #fff;
+$colorBlack-50: rgba(2, 0, 0, 0.50);
+$colorGray: rgba(255, 255, 255, 0.32);
 
 body {
   font-family: Arial, sans-serif;
-  height: 100vh;
+  height: 200vh;
   width: 100%;
   display: flex;
   justify-content: start;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 @mixin span-hover {
@@ -27,6 +27,7 @@ body {
     border-radius: 3px;
   }
 }
+
 @mixin span-hover-r($radius) {
   &:hover {
     background-color: $colorBlue !important;
@@ -49,7 +50,6 @@ body {
   &::before {
     content: '';
     position: absolute;
-    top: -8.5px;
     left: calc(50% - 7.5px);
     transform: rotate(45deg);
     height: 15px;
@@ -59,6 +59,22 @@ body {
     border-right: none;
     border-bottom: none;
     background-color: $colorWhite;
+  }
+
+  &.before-top::before {
+    top: -8.5px;
+    border-radius: 5px 0 20px 0;
+    border: 1px solid $colorBlue;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  &.before-bottom:before {
+    bottom: -8.5px;
+    border-radius: 20px 0 5px 0;
+    border: 1px solid $colorBlue;
+    border-left: none;
+    border-top: none;
   }
 
   .nh-datepicker-calendar {
@@ -204,7 +220,8 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      button{
+
+      button {
         background: none;
         outline: none;
         padding: 5px 20px;

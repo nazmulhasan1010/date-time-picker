@@ -1,6 +1,7 @@
 $.fn.extend({
     picker: function (options = {}) {
-        let body = $('body'), elements = $(this), div = '<div>', span = '<span>', picker = $(div, {class: 'nh-picker'}),
+        let body = $('body'), elements = $(this), div = '<div>', span = '<span>',
+            picker = $(div, {class: 'nh-picker before-top'}),
             calendar = $(div, {class: 'nh-datepicker-calendar'}), headerSection = $(div, {class: 'nh-calendar-header'}),
             open = false, formatOp = options.format ?? 'dd/mm/yyyy', minDateOp = options.minDate ?? null,
             maxDateOp = options.maxDate ?? null, todayOp = options.today ?? false;
@@ -27,7 +28,7 @@ $.fn.extend({
                 'data-nh-max-date': $(element).data('nhMaxDate'),
             });
 
-            let comma = ',', fieldClasses = $(field).attr('class').split(" "), singleElementClass = '';
+            let comma = ',', fieldClasses = $(field).attr('class').split(/\s+/), singleElementClass = '';
             let i = 0;
             if ((index + 1) >= elements.length) {
                 comma = '';
@@ -46,7 +47,8 @@ $.fn.extend({
         let fieldClassesArray = fieldClasses.split(',');
 
         $(fieldClasses).click(function () {
-            let pickerActiveClass = $(this).attr('class').split(" "), format = $(this).data('nhDateFormat') ?? formatOp,
+            let pickerActiveClass = $(this).attr('class').split(/\s+/),
+                format = $(this).data('nhDateFormat') ?? formatOp,
                 todayActive = $(this).data('nhToday') ?? todayOp;
 
             if (open === false) {
@@ -63,24 +65,6 @@ $.fn.extend({
                 }
 
                 $(body).append(picker);
-                let pickerWidth = $(picker).outerWidth();
-
-                let bodyWidth = $(document.body).width(), bodyHeight = $(document.body).height();
-
-                let left = $(this).offset().left, width = $(this).outerWidth(), right = (bodyWidth - (width + left)),
-                    height = $(this).outerHeight(), top = $(this).offset().top;
-
-                let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
-                if (left > leftCut) {
-                    leftPosition = left - leftCut;
-                }
-                if (right < leftCut) {
-                    leftPosition = left - (leftCut * 2);
-                }
-                console.log(bodyHeight,top)
-                $(picker).css({
-                    left: leftPosition, top: top + height + 12,
-                })
 
                 let cuDate = new Date(), cuYear = cuDate.getFullYear(), cuMonth = cuDate.getMonth(),
                     today = cuDate.getDate();
@@ -370,6 +354,33 @@ $.fn.extend({
                     });
                 }
 
+                let pickerWidth = $(picker).outerWidth(), pickerHeight = $(picker).outerHeight();
+
+                let bodyWidth = $(document.body).width(), bodyHeight = $(document.body).height();
+
+                let left = $(this).offset().left, width = $(this).outerWidth(), right = (bodyWidth - (width + left)),
+                    height = $(this).outerHeight(), top = $(this).offset().top, topPosition;
+
+                let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
+                if (left > leftCut) {
+                    leftPosition = left - leftCut;
+                }
+                if (right < leftCut) {
+                    leftPosition = left - (leftCut * 2);
+                }
+
+                if ((bodyHeight - top) < (pickerHeight + 100)) {
+                    $(picker).addClass('before-bottom').removeClass('before-top');
+                    topPosition = top - (pickerHeight + height + 12);
+                } else {
+                    $(picker).addClass('before-top').removeClass('before-bottom')
+                    topPosition = (top + height + 12)
+                }
+
+                $(picker).css({
+                    left: leftPosition, top: topPosition,
+                })
+
                 open = true;
             } else {
                 close();
@@ -379,7 +390,7 @@ $.fn.extend({
                 let target = $(event.target), targetClassAll = '';
 
                 if (target.attr('class')) {
-                    let targetClass = target.attr('class').split(" ");
+                    let targetClass = target.attr('class').split(/\s+/);
                     for (let i = 0; i < targetClass.length; i++) {
                         targetClassAll += '.' + targetClass[i];
                     }

@@ -7,11 +7,11 @@
 
 body {
   font-family: Arial, sans-serif;
-  height: 100vh;
+  height: 200vh;
   width: 100%;
   display: flex;
   justify-content: start;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .nh-picker {
@@ -28,7 +28,6 @@ body {
 .nh-picker::before {
   content: "";
   position: absolute;
-  top: -8.5px;
   left: calc(50% - 7.5px);
   transform: rotate(45deg);
   height: 15px;
@@ -38,6 +37,20 @@ body {
   border-right: none;
   border-bottom: none;
   background-color: #fff;
+}
+.nh-picker.before-top::before {
+  top: -8.5px;
+  border-radius: 5px 0 20px 0;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  border-right: none;
+  border-bottom: none;
+}
+.nh-picker.before-bottom:before {
+  bottom: -8.5px;
+  border-radius: 20px 0 5px 0;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  border-left: none;
+  border-top: none;
 }
 .nh-picker .nh-datepicker-calendar {
   height: 100%;
