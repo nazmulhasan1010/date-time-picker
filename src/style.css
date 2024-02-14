@@ -7,11 +7,11 @@
 
 body {
   font-family: Arial, sans-serif;
-  height: 200vh;
+  height: 100vh;
   width: 100%;
   display: flex;
-  justify-content: start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .nh-picker {
@@ -24,6 +24,7 @@ body {
   position: absolute;
   font-family: "Mulish", sans-serif;
   font-optical-sizing: auto;
+  z-index: 9999;
 }
 .nh-picker::before {
   content: "";
@@ -199,6 +200,10 @@ body {
 }
 .nh-picker .nh-datepicker-calendar .nh-inactive {
   display: none !important;
+}
+
+#exampleModal {
+  height: 30vh !important;
 }
 
 /*# sourceMappingURL=style.css.map */
