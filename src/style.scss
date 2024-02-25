@@ -7,6 +7,7 @@
 }
 
 $colorBlue: rgba(91, 66, 243, 0.79);
+$colorBlueLight: rgb(136, 120, 244);
 $colorWhite: #fff;
 $colorBlack-50: rgba(2, 0, 0, 0.50);
 $colorGray: rgba(255, 255, 255, 0.32);
@@ -36,7 +37,7 @@ body {
   }
 }
 
-.nh-picker {
+@mixin nh-picker {
   height: auto;
   width: 300px;
   background-color: $colorWhite;
@@ -77,6 +78,10 @@ body {
     border-left: none;
     border-top: none;
   }
+}
+
+.nh-picker {
+  @include nh-picker;
 
   .nh-datepicker-calendar {
     height: 100%;
@@ -100,7 +105,7 @@ body {
         button {
           background: none;
           outline: none;
-          padding: 5px 20px;
+          padding: 5px 15px;
           border: 1px solid $colorBlue;
           border-radius: 20px;
           user-select: none;
@@ -248,6 +253,96 @@ body {
     }
   }
 }
-#exampleModal{
+
+.nh-time-picker {
+  @include nh-picker;
+  width: 230px !important;
+
+  .nh-time-content {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .nh-time-hours, .nh-time-minute, .nh-time-format {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 150px;
+      padding: 0 20px;
+      overflow: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      span {
+        margin: 2px 0;
+        font-size: 17px;
+
+        &.nh-active {
+          color: $colorWhite !important;
+        }
+      }
+    }
+
+    :not(.nh-time-format) {
+      span {
+
+        &:nth-child(1) {
+          transform: rotateX(-40deg);
+        }
+
+        &:nth-child(2) {
+          transform: rotateX(-30deg);
+        }
+
+        &:nth-child(4) {
+          transform: rotateX(30deg);
+        }
+
+        &:nth-child(5) {
+          transform: rotateX(40deg);
+        }
+      }
+    }
+
+    .nh-time-format {
+      justify-content: center;
+
+      :is(span.active[data-value="am"]) {
+        transform: none;
+        margin-top: 30px;
+      }
+
+      :is(span.inactive[data-value="am"]) {
+        transform: none;
+        margin-top: -30px;
+      }
+    }
+
+    .nh-time-selector {
+      height: 33px;
+      width: 100%;
+      background-color: $colorBlueLight;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 10px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: -1;
+
+      span {
+        color: white;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+#exampleModal {
   height: 30vh !important;
 }

@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-<input type="date" class="picker  pic" data-nh-date-format="yyyy-mm-dd" data-nh-min-date="5/7/2022"
-       data-nh-max-date="20/6/2024" data-nh-date-range="false">
-<input type="time" class="picker pic" data-nh-today="true">
+<input type="date" class="picker  pic" data-nh-date-format="dd-mm-yyyy" data-nh-min-date="5/7/2022"
+       data-nh-max-date="20/6/2024" data-nh-date-range="false" value="25-10-2025">
+<input type="time" class="picker pic" data-nh-time-format="24">
+<input type="time" class="picker pic" >
 <input type="text" class="picker pic">
+
 
 <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"-->
 <!--        data-bs-whatever="@mdo">Open modal-->
@@ -65,11 +67,12 @@
 <script>
     $(document).ready(function () {
         $('.picker,#recipient-name,#message-text-4').picker({
-            format: 'dd-mm-yyyy',
+            dateFormat: 'dd-mm-yyyy',
             minDate: '5/2/2023',
             maxDate: '25/8/2024',
             today: false,
             dateRange: true,
+            timeFormat: 12
         });
     });
 </script>

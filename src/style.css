@@ -73,7 +73,7 @@ body {
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span button {
   background: none;
   outline: none;
-  padding: 5px 20px;
+  padding: 5px 15px;
   border: 1px solid rgba(91, 66, 243, 0.79);
   border-radius: 20px;
   user-select: none;
@@ -200,6 +200,112 @@ body {
 }
 .nh-picker .nh-datepicker-calendar .nh-inactive {
   display: none !important;
+}
+
+.nh-time-picker {
+  height: auto;
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+  z-index: 9999;
+  width: 230px !important;
+}
+.nh-time-picker::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 7.5px);
+  transform: rotate(45deg);
+  height: 15px;
+  width: 15px;
+  border-radius: 5px 0 20px 0;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  border-right: none;
+  border-bottom: none;
+  background-color: #fff;
+}
+.nh-time-picker.before-top::before {
+  top: -8.5px;
+  border-radius: 5px 0 20px 0;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  border-right: none;
+  border-bottom: none;
+}
+.nh-time-picker.before-bottom:before {
+  bottom: -8.5px;
+  border-radius: 20px 0 5px 0;
+  border: 1px solid rgba(91, 66, 243, 0.79);
+  border-left: none;
+  border-top: none;
+}
+.nh-time-picker .nh-time-content {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.nh-time-picker .nh-time-content .nh-time-hours, .nh-time-picker .nh-time-content .nh-time-minute, .nh-time-picker .nh-time-content .nh-time-format {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  padding: 0 20px;
+  overflow: scroll;
+}
+.nh-time-picker .nh-time-content .nh-time-hours::-webkit-scrollbar, .nh-time-picker .nh-time-content .nh-time-minute::-webkit-scrollbar, .nh-time-picker .nh-time-content .nh-time-format::-webkit-scrollbar {
+  display: none;
+}
+.nh-time-picker .nh-time-content .nh-time-hours span, .nh-time-picker .nh-time-content .nh-time-minute span, .nh-time-picker .nh-time-content .nh-time-format span {
+  margin: 2px 0;
+  font-size: 17px;
+}
+.nh-time-picker .nh-time-content .nh-time-hours span.nh-active, .nh-time-picker .nh-time-content .nh-time-minute span.nh-active, .nh-time-picker .nh-time-content .nh-time-format span.nh-active {
+  color: #fff !important;
+}
+.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(1) {
+  transform: rotateX(-40deg);
+}
+.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(2) {
+  transform: rotateX(-30deg);
+}
+.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(4) {
+  transform: rotateX(30deg);
+}
+.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(5) {
+  transform: rotateX(40deg);
+}
+.nh-time-picker .nh-time-content .nh-time-format {
+  justify-content: center;
+}
+.nh-time-picker .nh-time-content .nh-time-format :is(span.active[data-value=am]) {
+  transform: none;
+  margin-top: 30px;
+}
+.nh-time-picker .nh-time-content .nh-time-format :is(span.inactive[data-value=am]) {
+  transform: none;
+  margin-top: -30px;
+}
+.nh-time-picker .nh-time-content .nh-time-selector {
+  height: 33px;
+  width: 100%;
+  background-color: rgb(136, 120, 244);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 10px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: -1;
+}
+.nh-time-picker .nh-time-content .nh-time-selector span {
+  color: white;
+  font-size: 20px;
 }
 
 #exampleModal {

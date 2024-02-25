@@ -1,11 +1,11 @@
 $.fn.extend({
     picker: function (options = {}) {
         let body = $('body') ?? $(window), elements = $(this), div = '<div>', span = '<span>',
-            picker = $(div, {class: 'nh-picker before-top'}), timePicker = $(div, {class: 'nh-time-picker before-top'}),
-            calendar = $(div, {class: 'nh-datepicker-calendar'}), headerSection = $(div, {class: 'nh-calendar-header'}),
-            open = false, formatOp = options.dateFormat ?? 'dd/mm/yyyy', minDateOp = options.minDate ?? null,
+            picker = $(div, {class: 'nh-picker before-top'}), calendar = $(div, {class: 'nh-datepicker-calendar'}),
+            headerSection = $(div, {class: 'nh-calendar-header'}), open = false,
+            formatOp = options.format ?? 'dd/mm/yyyy', minDateOp = options.minDate ?? null,
             maxDateOp = options.maxDate ?? null, todayOp = options.today ?? false, typeOp = options.type,
-            dateRangeOp = options.dateRange ?? false, rangeA = {}, timeFormatOp = options.timeFormat ?? 12;
+            dateRangeOp = options.dateRange ?? false, rangeA = {};
 
         headerSection.append($(span, {
             class: 'nh-header-content nh-prev-month', html: '&lt;'
@@ -15,12 +15,6 @@ $.fn.extend({
 
         picker.append(calendar.append(headerSection).append($(div, {class: 'nh-content nh-calendar-days nh-active'}).append($(div, {class: 'nh-day-names'})).append($(div, {class: 'nh-day-date'}))).append($(div, {class: 'nh-content nh-years nh-inactive'})).append($(div, {class: 'nh-content nh-month nh-inactive'})));
 
-        timePicker.append($('<div>', {class: 'nh-time-content',}).append($($('<div>', {class: 'nh-time-hours'}))).append($($('<div>', {class: 'nh-time-minute'}))).append($($('<div>', {
-            class: 'nh-time-format',
-            html: `<span class="active" data-value="am">AM</span>
-            <span class="inactive" data-value="pm">PM</span>`,
-        }))).append($($('<div>', {class: 'nh-time-selector'}))));
-
         let field, fieldClasses = '', exception;
         $.each(elements, function (index, element) {
             field = $('<input>', {
@@ -29,14 +23,12 @@ $.fn.extend({
                 class: $(element).attr('class') + ' nh-picker-field-' + index,
                 name: $(element).attr('name'),
                 id: $(element).attr('id'),
-                value: $(element).attr('value'),
                 placeholder: $(element).attr('placeholder'),
                 'data-nh-date-format': $(element).data('nhDateFormat'),
                 'data-nh-today': $(element).data('nhToday'),
                 'data-nh-min-date': $(element).data('nhMinDate'),
                 'data-nh-max-date': $(element).data('nhMaxDate'),
                 'data-nh-date-range': $(element).data('nhDateRange'),
-                'data-nh-time-format': $(element).data('nhTimeFormat'),
             });
 
             let comma = ',', fieldClasses = $(field).attr('class').split(/\s+/), singleElementClass = '';
@@ -55,7 +47,7 @@ $.fn.extend({
             fieldClasses += singleElementClass + comma;
         }
 
-        let fieldClassesArray = fieldClasses.split(',');
+        let fieldClassesArray = fieldClasses.split(','), clicked = 0;
 
         $(fieldClasses).click(function () {
             let pickerActiveClass = $(this).attr('class').split(/\s+/),
@@ -63,7 +55,6 @@ $.fn.extend({
                 pickerType = $(this).data('type') === 'date' || $(this).data('type') === 'time' ? $(this).data('type') : typeOp === 'date' || typeOp === 'time' ? typeOp : 'date',
                 dateRange = $(this).data('nhDateRange') ?? dateRangeOp;
 
-            // date picker
             if (pickerType === 'date') {
                 if (open === false) {
                     exception = '';
@@ -80,20 +71,11 @@ $.fn.extend({
 
                     $(body).append(picker);
 
-                    const daysNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-                        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-                    let thisDate = $(this).val();
-
                     let cuDate = new Date(), cuYear = cuDate.getFullYear(), cuMonth = cuDate.getMonth(),
                         today = cuDate.getDate();
 
-                    if (thisDate) {
-                        cuDate = dateInitialize($(this).val(), format);
-                        cuYear = cuDate.getFullYear();
-                        cuMonth = cuDate.getMonth();
-                        today = cuDate.getDate();
-                    }
+                    const daysNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+                        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
                     let header = $('.nh-calendar-header'), cuMonthYear = $('.nh-current-month-year'),
                         content = $('.nh-content'), yearSection = $('.nh-years'), monthSection = $('.nh-month'),
@@ -448,81 +430,15 @@ $.fn.extend({
                 } else {
                     close();
                 }
+
             }
 
             // time picker
             if (pickerType === 'time') {
-                if (open === false) {
-                    exception = '';
-                    for (let i = 0; i < pickerActiveClass.length; i++) {
-                        exception += '.' + pickerActiveClass[i];
-                    }
-
-                    let timeFormat = $(this).data('nhTimeFormat') ?? timeFormatOp;
-                    console.log(timeFormat)
-
-                    let cuTime = new Date(), cuHr = cuTime.getHours(), cuMinute = cuTime.getMinutes(),
-                        cuSecond = cuTime.getSeconds();
-                    //
-                    // let thisDate = $(this).val();
-                    //
-                    // if (thisDate) {
-                    //     cuTime = dateInitialize($(this).val(), format);
-                    //     cuHr = cuTime.getHours();
-                    //     cuMinute = cuTime.getMinutes();
-                    //     cuSecond = cuTime.getSeconds();
-                    // }
-
-                    $(body).append($(timePicker));
-
-                    let hourSection = $('.nh-time-hours'), minuteSection = $('.nh-time-minute'),
-                        formatSection = $('.nh-time-format'), selector = $('.nh-time-selector');
-
-                    timeContentShowing(cuHr, cuMinute)
-
-                    function timeContentShowing(hour, minute) {
-                        $(hourSection).empty();
-                        let hourStart = (hour - 3), hourEnd = (hour + 4)
-                        for (let i = hourStart; i < hourEnd; i++) {
-                            $(hourSection).append($('<span>', {
-                                'data-value': i, text: addZero(i),
-                                class: i === hour ? 'nh-active' : null
-                            }));
-                        }
-
-                        $(minuteSection).empty();
-                        for (let i = 1; i < 60; i++) {
-                            $(minuteSection).append($('<span>', {
-                                'data-value': i, text: addZero(i)
-                            }));
-                        }
-                    }
-
-                    let scrollTop = 0, scroll;
-                    $(hourSection).scroll(function () {
-                        let scrolling = $(this).scrollTop();
-                        scrolling > scrollTop ? scroll = 'down' : scroll = 'up';
-                        scrollTop = scrolling <= 0 ? 0 : scrolling;
-                        // console.log(scroll);
-                        if (scroll === 'down') {
-                            $(hourSection).append($('<span>', {
-                                'data-value': 'r', text: addZero(3)
-                            }));
-                        }
-                        if (scroll === 'up') {
-                            $(hourSection).prepend($('<span>', {
-                                'data-value': 'r', text: addZero(3)
-                            }));
-                        }
-                    });
-
-                    let thisElement = this;
-                    elements.pickerPositioning(timePicker, thisElement);
-                    open = true;
-                } else {
-                    close();
-                }
+                $(body).append(picker);
             }
+
+            
         });
 
         $(document).on('click', function (event) {
@@ -534,8 +450,8 @@ $.fn.extend({
                     targetClassAll += '.' + targetClass[i];
                 }
             }
-
-            if (!target.closest('.nh-picker,.nh-time-picker').length && !target.is(exception)) {
+            console.log(targetClassAll)
+            if (!target.closest('.nh-picker').length && !target.is(exception)) {
                 close();
                 if (targetClassAll && fieldClassesArray.includes(targetClassAll)) {
                     $(targetClassAll).click();
@@ -554,7 +470,6 @@ $.fn.extend({
         function close() {
             $('.nh-next-month,.nh-prev-month').removeClass('inactive');
             $(picker).remove();
-            $(timePicker).remove();
             rangeA = [];
             open = false;
         }
@@ -594,4 +509,3 @@ $.fn.extend({
         })
     }
 })
-
