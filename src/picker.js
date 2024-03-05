@@ -15,10 +15,13 @@ $.fn.extend({
 
         picker.append(calendar.append(headerSection).append($(div, {class: 'nh-content nh-calendar-days nh-active'}).append($(div, {class: 'nh-day-names'})).append($(div, {class: 'nh-day-date'}))).append($(div, {class: 'nh-content nh-years nh-inactive'})).append($(div, {class: 'nh-content nh-month nh-inactive'})));
 
-        timePicker.append($('<div>', {class: 'nh-time-content',}).append($($('<div>', {class: 'nh-time-hours'}))).append($($('<div>', {class: 'nh-time-minute'}))).append($($('<div>', {
+        timePicker.append($('<div>', {class: 'nh-time-content',}).append($($('<div>', {
+            class: 'nh-time-hours',
+            'data-element': 'hour'
+        }))).append($($('<div>', {class: 'nh-time-minute', 'data-element': 'minute'}))).append($($('<div>', {
             class: 'nh-time-format',
-            html: `<span class="active" data-value="am">AM</span>
-            <span class="inactive" data-value="pm">PM</span>`,
+            'data-element': 'format',
+            html: `<input value="am"><input value="pm">`,
         }))).append($($('<div>', {class: 'nh-time-selector'}))));
 
         let field, fieldClasses = '', exception;
@@ -459,62 +462,86 @@ $.fn.extend({
                     }
 
                     let timeFormat = $(this).data('nhTimeFormat') ?? timeFormatOp;
-                    console.log(timeFormat)
 
-                    let cuTime = new Date(), cuHr = cuTime.getHours(), cuMinute = cuTime.getMinutes(),
-                        cuSecond = cuTime.getSeconds();
-                    //
-                    // let thisDate = $(this).val();
-                    //
-                    // if (thisDate) {
-                    //     cuTime = dateInitialize($(this).val(), format);
-                    //     cuHr = cuTime.getHours();
-                    //     cuMinute = cuTime.getMinutes();
-                    //     cuSecond = cuTime.getSeconds();
-                    // }
+                    let cuTime = new Date(), cuHr = cuTime.getHours(),
+                        cuMinute = cuTime.getMinutes(), cuSecond = cuTime.getSeconds();
 
                     $(body).append($(timePicker));
 
-                    let hourSection = $('.nh-time-hours'), minuteSection = $('.nh-time-minute'),
-                        formatSection = $('.nh-time-format'), selector = $('.nh-time-selector');
+                    let hourSection = $('.nh-time-hours'),
+                        hmfSection = $('.nh-time-hours,.nh-time-minute,.nh-time-format'),
+                        minuteSection = $('.nh-time-minute'), formatSection = $('.nh-time-format'),
+                        selector = $('.nh-time-selector');
+                    $(hourSection).empty();
+                    $(minuteSection).empty();
+                    for (let i = 1; i < 6; i++) {
+                        $(hourSection).append($('<input>', {
+                            class: i === 3 ? 'nh-active' : null
+                        }));
+                        $(minuteSection).append($('<input>', {
+                            class: i === 3 ? 'nh-active' : null
+                        }));
+                    }
 
-                    timeContentShowing(cuHr, cuMinute)
+                    let meri = cuHr >= 12 ? 'pm' : 'am',
+                        hour = timeFormat === 12 ? cuHr % 12 : cuHr;
+                    hour = hour ? hour : 12;
+                    setTime(hour, cuMinute, meri);
+                    $(formatSection).children('input').addClass('nh-inactive').removeClass('nh-active');
+                    $(formatSection).children(`input[value='${meri}']`).addClass('nh-active').removeClass('nh-inactive');
 
-                    function timeContentShowing(hour, minute) {
-                        $(hourSection).empty();
-                        let hourStart = (hour - 3), hourEnd = (hour + 4)
-                        for (let i = hourStart; i < hourEnd; i++) {
-                            $(hourSection).append($('<span>', {
-                                'data-value': i, text: addZero(i),
-                                class: i === hour ? 'nh-active' : null
-                            }));
+                    timeSelectorShowing(hour, timeFormat, null, hourSection);
+                    timeSelectorShowing(cuMinute, 60, null, minuteSection);
+
+                    $(hmfSection).on("mousewheel", function (event) {
+                        let delta = event.originalEvent.deltaY || event.originalEvent.detail,
+                            value = parseInt($(this).children(`input.nh-active`).val()),
+                            section = $(this).data('element'),
+                            count = section === 'hour' ? timeFormat : 60;
+                        if (section === 'format') {
+                            $(formatSection).children(`input`).each(function (index, element) {
+                                if ($(element).hasClass('nh-active')) {
+                                    $(element).removeClass('nh-active').addClass('nh-inactive');
+                                } else {
+                                    $(element).removeClass('nh-inactive').addClass('nh-active');
+                                }
+                            });
+                        } else {
+                            timeSelectorShowing(value, count, delta, $(this));
                         }
 
-                        $(minuteSection).empty();
-                        for (let i = 1; i < 60; i++) {
-                            $(minuteSection).append($('<span>', {
-                                'data-value': i, text: addZero(i)
-                            }));
+                        setTime( $(hourSection).children(`input.nh-active`).val(),  $(minuteSection).children(`input.nh-active`).val(),  $(formatSection).children(`input.nh-active`).val());
+                    });
+
+
+                    function timeSelectorShowing(value, count, delta = null, place = null) {
+                        if (delta) {
+                            if (delta > 0) {
+                                value = (value % count) + 1;
+                            } else {
+                                value = ((value - 2 + count) % count) + 1;
+                            }
+                        }
+
+                        $(place).children(`input.nh-active`).val(value);
+
+                        let values = {
+                            'v1': ((value - 3 + count) % count) + 1,
+                            'v2': ((value - 2 + count) % count) + 1,
+                            'v4': (value % count) + 1,
+                            'v5': ((value % count) + 2) > count ? 1 : ((value % count) + 2),
+                        }
+                        for (let i = 1; i < 6; i++) {
+                            if (i !== 3) {
+                                let data = values['v' + i];
+                                $(place).children(`input:nth-child(${i})`).val(data);
+                            }
                         }
                     }
 
-                    let scrollTop = 0, scroll;
-                    $(hourSection).scroll(function () {
-                        let scrolling = $(this).scrollTop();
-                        scrolling > scrollTop ? scroll = 'down' : scroll = 'up';
-                        scrollTop = scrolling <= 0 ? 0 : scrolling;
-                        // console.log(scroll);
-                        if (scroll === 'down') {
-                            $(hourSection).append($('<span>', {
-                                'data-value': 'r', text: addZero(3)
-                            }));
-                        }
-                        if (scroll === 'up') {
-                            $(hourSection).prepend($('<span>', {
-                                'data-value': 'r', text: addZero(3)
-                            }));
-                        }
-                    });
+                    function setTime(hr, m, me) {
+                        $(exception).val(`${addZero(hr)}:${addZero(m)}:${me}`)
+                    }
 
                     let thisElement = this;
                     elements.pickerPositioning(timePicker, thisElement);

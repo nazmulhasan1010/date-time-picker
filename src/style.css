@@ -250,44 +250,47 @@ body {
 .nh-time-picker .nh-time-content .nh-time-hours, .nh-time-picker .nh-time-content .nh-time-minute, .nh-time-picker .nh-time-content .nh-time-format {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   height: 150px;
   padding: 0 20px;
-  overflow: scroll;
 }
-.nh-time-picker .nh-time-content .nh-time-hours::-webkit-scrollbar, .nh-time-picker .nh-time-content .nh-time-minute::-webkit-scrollbar, .nh-time-picker .nh-time-content .nh-time-format::-webkit-scrollbar {
-  display: none;
-}
-.nh-time-picker .nh-time-content .nh-time-hours span, .nh-time-picker .nh-time-content .nh-time-minute span, .nh-time-picker .nh-time-content .nh-time-format span {
+.nh-time-picker .nh-time-content .nh-time-hours input, .nh-time-picker .nh-time-content .nh-time-minute input, .nh-time-picker .nh-time-content .nh-time-format input {
   margin: 2px 0;
   font-size: 17px;
+  height: 20%;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: none;
 }
-.nh-time-picker .nh-time-content .nh-time-hours span.nh-active, .nh-time-picker .nh-time-content .nh-time-minute span.nh-active, .nh-time-picker .nh-time-content .nh-time-format span.nh-active {
+.nh-time-picker .nh-time-content .nh-time-hours input.nh-active, .nh-time-picker .nh-time-content .nh-time-minute input.nh-active, .nh-time-picker .nh-time-content .nh-time-format input.nh-active {
   color: #fff !important;
 }
-.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(1) {
+.nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(1) {
   transform: rotateX(-40deg);
 }
-.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(2) {
+.nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(2) {
   transform: rotateX(-30deg);
 }
-.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(4) {
+.nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(4) {
   transform: rotateX(30deg);
 }
-.nh-time-picker .nh-time-content :not(.nh-time-format) span:nth-child(5) {
+.nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(5) {
   transform: rotateX(40deg);
 }
 .nh-time-picker .nh-time-content .nh-time-format {
   justify-content: center;
 }
-.nh-time-picker .nh-time-content .nh-time-format :is(span.active[data-value=am]) {
-  transform: none;
-  margin-top: 30px;
+.nh-time-picker .nh-time-content .nh-time-format input {
+  text-transform: uppercase;
 }
-.nh-time-picker .nh-time-content .nh-time-format :is(span.inactive[data-value=am]) {
+.nh-time-picker .nh-time-content .nh-time-format :is(input.nh-active[value=am]) {
   transform: none;
-  margin-top: -30px;
+  margin-top: 35px;
+}
+.nh-time-picker .nh-time-content .nh-time-format :is(input.nh-inactive[value=am]) {
+  transform: none;
+  margin-top: -35px;
 }
 .nh-time-picker .nh-time-content .nh-time-selector {
   height: 33px;
