@@ -80,7 +80,7 @@ $('.picker').picker({
 });
 ```
 
-To show button today, you can use...
+To show today button, you can use...
 
 ```html
 <!-- This value will be 'true' or 'false' -->
