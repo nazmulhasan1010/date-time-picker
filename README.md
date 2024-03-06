@@ -1,12 +1,3 @@
-<style>
-*{
-    font-family: "Mulish", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style: normal;
-    letter-spacing: 1px;
-}
-</style>
 
 ## Date And Time Picker—Documentation
 
