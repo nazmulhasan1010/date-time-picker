@@ -1,12 +1,20 @@
-
 ## Date And Time Picker—Documentation
 
+```nh-picker``` is a ```javascript``` package that provides a simple and customizable date and time picker component for web applications.
+It allows users to select a date and time from a calendar interface, or to enter them manually. ```nh-picker``` supports
+various formats. ```nh-picker``` is lightweight, responsive, and accessible, and can be used for any kind of date and time
+input needs.
+
 ### Installation
+
 NPM install
+
 ```bash
 npm i nh-picker
 ```
+
 CDN
+
 ```html
 <!-- css -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nh-picker/style/nh-picker.min.css">
@@ -108,6 +116,7 @@ $('.picker').picker({
     today: true, // default value 'false'
 });
 ```
+
 ## Time picker
 
 To use ```Time Picker```
