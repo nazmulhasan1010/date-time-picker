@@ -256,7 +256,7 @@ body {
 
 .nh-time-picker {
   @include nh-picker;
-  width: 230px !important;
+  width: auto !important;
 
   .nh-time-content {
     display: flex;
@@ -266,10 +266,10 @@ body {
     .nh-time-hours, .nh-time-minute, .nh-time-format {
       display: flex;
       flex-direction: column;
-      //align-items: center;
       justify-content: center;
       height: 150px;
       padding: 0 20px;
+      width: 70px;
 
       input {
         margin: 2px 0;
@@ -279,6 +279,7 @@ body {
         border: none;
         outline: none;
         background: none;
+        pointer-events: none;
 
         &.nh-active {
           color: $colorWhite !important;
@@ -290,7 +291,7 @@ body {
       input {
 
         &:nth-child(1) {
-          transform: rotateX(-40deg);
+          transform: rotateX(-50deg);
         }
 
         &:nth-child(2) {
@@ -302,7 +303,7 @@ body {
         }
 
         &:nth-child(5) {
-          transform: rotateX(40deg);
+          transform: rotateX(50deg);
         }
       }
     }
@@ -347,6 +348,3 @@ body {
   }
 }
 
-#exampleModal {
-  height: 30vh !important;
-}

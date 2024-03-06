@@ -213,7 +213,7 @@ body {
   font-family: "Mulish", sans-serif;
   font-optical-sizing: auto;
   z-index: 9999;
-  width: 230px !important;
+  width: auto !important;
 }
 .nh-time-picker::before {
   content: "";
@@ -253,6 +253,7 @@ body {
   justify-content: center;
   height: 150px;
   padding: 0 20px;
+  width: 70px;
 }
 .nh-time-picker .nh-time-content .nh-time-hours input, .nh-time-picker .nh-time-content .nh-time-minute input, .nh-time-picker .nh-time-content .nh-time-format input {
   margin: 2px 0;
@@ -262,12 +263,13 @@ body {
   border: none;
   outline: none;
   background: none;
+  pointer-events: none;
 }
 .nh-time-picker .nh-time-content .nh-time-hours input.nh-active, .nh-time-picker .nh-time-content .nh-time-minute input.nh-active, .nh-time-picker .nh-time-content .nh-time-format input.nh-active {
   color: #fff !important;
 }
 .nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(1) {
-  transform: rotateX(-40deg);
+  transform: rotateX(-50deg);
 }
 .nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(2) {
   transform: rotateX(-30deg);
@@ -276,7 +278,7 @@ body {
   transform: rotateX(30deg);
 }
 .nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(5) {
-  transform: rotateX(40deg);
+  transform: rotateX(50deg);
 }
 .nh-time-picker .nh-time-content .nh-time-format {
   justify-content: center;
@@ -311,8 +313,4 @@ body {
   font-size: 20px;
 }
 
-#exampleModal {
-  height: 30vh !important;
-}
-
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=nh-picker.css.map */

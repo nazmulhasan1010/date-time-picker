@@ -16,12 +16,9 @@ $.fn.extend({
         picker.append(calendar.append(headerSection).append($(div, {class: 'nh-content nh-calendar-days nh-active'}).append($(div, {class: 'nh-day-names'})).append($(div, {class: 'nh-day-date'}))).append($(div, {class: 'nh-content nh-years nh-inactive'})).append($(div, {class: 'nh-content nh-month nh-inactive'})));
 
         timePicker.append($('<div>', {class: 'nh-time-content',}).append($($('<div>', {
-            class: 'nh-time-hours',
-            'data-element': 'hour'
+            class: 'nh-time-hours', 'data-element': 'hour'
         }))).append($($('<div>', {class: 'nh-time-minute', 'data-element': 'minute'}))).append($($('<div>', {
-            class: 'nh-time-format',
-            'data-element': 'format',
-            html: `<input value="am"><input value="pm">`,
+            class: 'nh-time-format', 'data-element': 'format', html: `<input value="am"><input value="pm">`,
         }))).append($($('<div>', {class: 'nh-time-selector'}))));
 
         let field, fieldClasses = '', exception;
@@ -34,6 +31,7 @@ $.fn.extend({
                 id: $(element).attr('id'),
                 value: $(element).attr('value'),
                 placeholder: $(element).attr('placeholder'),
+                'data-nh-name': $(element).attr('name'),
                 'data-nh-date-format': $(element).data('nhDateFormat'),
                 'data-nh-today': $(element).data('nhToday'),
                 'data-nh-min-date': $(element).data('nhMinDate'),
@@ -238,7 +236,20 @@ $.fn.extend({
                                     $(this).addClass('nh-span-active');
                                     rangeA['dateA'] = dateDataA;
                                 } else {
-                                    $(exception).val(dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year) + '-' + dateFormating(selectedDate, selectedMonth, year))
+                                    let rangeName = $(exception).data('nhName') ?? 'range';
+                                    $(exception).attr('name', '');
+                                    $(exception).siblings('.nh-date-range-inputs').remove();
+                                    $(exception).parent().append($('<div>', {class: 'nh-date-range-inputs'}).append($('<input>', {
+                                        type: 'hidden',
+                                        name: rangeName + '[from]',
+                                        value: `${dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year)}`
+                                    })).append($('<input>', {
+                                        type: 'hidden',
+                                        name: rangeName + '[to]',
+                                        value: `${dateFormating(selectedDate, selectedMonth, year)}`
+                                    })));
+
+                                    $(exception).val(dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year) + ' to ' + dateFormating(selectedDate, selectedMonth, year))
                                     close();
                                 }
                             } else {
@@ -463,8 +474,8 @@ $.fn.extend({
 
                     let timeFormat = $(this).data('nhTimeFormat') ?? timeFormatOp;
 
-                    let cuTime = new Date(), cuHr = cuTime.getHours(),
-                        cuMinute = cuTime.getMinutes(), cuSecond = cuTime.getSeconds();
+                    let cuTime = new Date(), cuHr = cuTime.getHours(), cuMinute = cuTime.getMinutes(),
+                        cuSecond = cuTime.getSeconds();
 
                     $(body).append($(timePicker));
 
@@ -483,8 +494,7 @@ $.fn.extend({
                         }));
                     }
 
-                    let meri = cuHr >= 12 ? 'pm' : 'am',
-                        hour = timeFormat === 12 ? cuHr % 12 : cuHr;
+                    let meri = cuHr >= 12 ? 'pm' : 'am', hour = timeFormat === 12 ? cuHr % 12 : cuHr;
                     hour = hour ? hour : 12;
                     setTime(hour, cuMinute, meri);
                     $(formatSection).children('input').addClass('nh-inactive').removeClass('nh-active');
@@ -493,11 +503,14 @@ $.fn.extend({
                     timeSelectorShowing(hour, timeFormat, null, hourSection);
                     timeSelectorShowing(cuMinute, 60, null, minuteSection);
 
+                    $(formatSection).show();
+                    if (timeFormat === 24) {
+                        $(formatSection).hide();
+                    }
                     $(hmfSection).on("mousewheel", function (event) {
                         let delta = event.originalEvent.deltaY || event.originalEvent.detail,
                             value = parseInt($(this).children(`input.nh-active`).val()),
-                            section = $(this).data('element'),
-                            count = section === 'hour' ? timeFormat : 60;
+                            section = $(this).data('element'), count = section === 'hour' ? timeFormat : 60;
                         if (section === 'format') {
                             $(formatSection).children(`input`).each(function (index, element) {
                                 if ($(element).hasClass('nh-active')) {
@@ -510,7 +523,11 @@ $.fn.extend({
                             timeSelectorShowing(value, count, delta, $(this));
                         }
 
-                        setTime( $(hourSection).children(`input.nh-active`).val(),  $(minuteSection).children(`input.nh-active`).val(),  $(formatSection).children(`input.nh-active`).val());
+                        let me = $(formatSection).children(`input.nh-active`).val(),
+                            hr = parseInt($(hourSection).children(`input.nh-active`).val()),
+                            m = parseInt($(minuteSection).children(`input.nh-active`).val());
+
+                        setTime(hr, m, me);
                     });
 
 
@@ -523,14 +540,15 @@ $.fn.extend({
                             }
                         }
 
-                        $(place).children(`input.nh-active`).val(value);
+                        $(place).children(`input.nh-active`).val(value === 24 ? 0 : value);
 
                         let values = {
-                            'v1': ((value - 3 + count) % count) + 1,
-                            'v2': ((value - 2 + count) % count) + 1,
-                            'v4': (value % count) + 1,
-                            'v5': ((value % count) + 2) > count ? 1 : ((value % count) + 2),
+                            'v1': (((value - 3 + count) % count) + 1) === 24 ? 0 : (((value - 3 + count) % count) + 1),
+                            'v2': (((value - 2 + count) % count) + 1) === 24 ? 0 : (((value - 2 + count) % count) + 1),
+                            'v4': ((value % count) + 1) === 24 ? 0 : ((value % count) + 1),
+                            'v5': ((value % count) + 2) > count ? 1 : ((value % count) + 2) === 24 ? 0 : ((value % count) + 2),
                         }
+
                         for (let i = 1; i < 6; i++) {
                             if (i !== 3) {
                                 let data = values['v' + i];
@@ -540,7 +558,8 @@ $.fn.extend({
                     }
 
                     function setTime(hr, m, me) {
-                        $(exception).val(`${addZero(hr)}:${addZero(m)}:${me}`)
+                        me = timeFormat === 24 ? '' : ':' + me;
+                        $(exception).val(`${addZero(hr)}:${addZero(m)}${me}`)
                     }
 
                     let thisElement = this;
