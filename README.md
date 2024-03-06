@@ -1,6 +1,19 @@
 
 ## Date And Time Picker—Documentation
 
+### Installation
+NPM install
+```bash
+npm i nh-picker
+```
+CDN
+```html
+<!-- css -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nh-picker/style/nh-picker.min.css">
+<!-- js -->
+<script src="https://cdn.jsdelivr.net/npm/nh-picker/js/picker.min.js"></script>
+```
+
 Basic use
 
 ```html
