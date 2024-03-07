@@ -638,39 +638,5 @@ $.fn.extend({
             rangeA = [];
             open = false;
         }
-    },
-
-    // pickerPositioning: function (picker, thisElement) {
-    //     let pickerWidth = $(picker).outerWidth(), pickerHeight = $(picker).outerHeight();
-    //
-    //     let bodyWidth = $(document.body).width(), bodyHeight = $(document.body).height();
-    //
-    //     let left = $(thisElement).offset().left, width = $(thisElement).outerWidth(),
-    //         right = (bodyWidth - (width + left)), height = $(thisElement).outerHeight(),
-    //         top = $(thisElement).offset().top, topPosition;
-    //
-    //     let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
-    //     if (left > leftCut) {
-    //         leftPosition = left - leftCut;
-    //     }
-    //     if (right < leftCut) {
-    //         leftPosition = left - (leftCut * 2);
-    //     }
-    //
-    //     if ((bodyHeight - top) < (pickerHeight + 100)) {
-    //         $(picker).addClass('before-bottom').removeClass('before-top');
-    //         topPosition = top - (pickerHeight + height + 12);
-    //     } else {
-    //         $(picker).addClass('before-top').removeClass('before-bottom')
-    //         topPosition = (top + height + 12)
-    //     }
-    //
-    //     if (top < 0 || (bodyHeight - top) < 0 || $(thisElement).position().top < 0 || (bodyHeight - $(thisElement).position().top) < 0) {
-    //         return false;
-    //     }
-    //
-    //     $(picker).css({
-    //         left: leftPosition, top: topPosition,
-    //     })
-    // }
+    }
 })

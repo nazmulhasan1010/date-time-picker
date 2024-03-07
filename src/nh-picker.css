@@ -133,7 +133,7 @@ body {
 }
 .nh-picker .nh-datepicker-calendar .nh-years span {
   text-align: center;
-  background-color: #fff;
+  background-color: #fff !important;
   text-transform: uppercase;
   padding: 3px 0;
   font-size: 16px;
@@ -155,7 +155,7 @@ body {
 }
 .nh-picker .nh-datepicker-calendar .nh-month span {
   text-align: center;
-  background-color: #fff;
+  background-color: #fff !important;
   text-transform: capitalize;
   padding: 3px 0;
   font-size: 16px;
@@ -257,10 +257,10 @@ body {
   font-size: 17px;
   height: 20%;
   width: 100%;
-  border: none;
-  outline: none;
-  background: none;
-  pointer-events: none;
+  border: none !important;
+  outline: none !important;
+  background: none !important;
+  pointer-events: none !important;
 }
 .nh-time-picker .nh-time-content .nh-time-hours input.nh-active, .nh-time-picker .nh-time-content .nh-time-minute input.nh-active, .nh-time-picker .nh-time-content .nh-time-format input.nh-active {
   color: #fff !important;

@@ -182,7 +182,7 @@ body {
 
       span {
         text-align: center;
-        background-color: $colorWhite;
+        background-color: $colorWhite !important;
         text-transform: uppercase;
         padding: 3px 0;
         font-size: 16px;
@@ -206,7 +206,7 @@ body {
 
       span {
         text-align: center;
-        background-color: $colorWhite;
+        background-color: $colorWhite !important;
         text-transform: capitalize;
         padding: 3px 0;
         font-size: 16px;
@@ -276,10 +276,10 @@ body {
         font-size: 17px;
         height: calc(100% / 5);
         width: 100%;
-        border: none;
-        outline: none;
-        background: none;
-        pointer-events: none;
+        border: none !important;
+        outline: none !important;
+        background: none !important;
+        pointer-events: none !important;
 
         &.nh-active {
           color: $colorWhite !important;
