@@ -122,6 +122,7 @@ $('.picker').picker({
 To use ```Time Picker```
 
 ```html
+<!-- This value will be '12' or '24' -->
 <!-- default value 12 -->
 <input type="time" class="picker" data-nh-time-format="12">
 ```
