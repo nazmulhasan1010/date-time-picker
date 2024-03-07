@@ -12,14 +12,14 @@ $colorWhite: #fff;
 $colorBlack-50: rgba(2, 0, 0, 0.50);
 $colorGray: rgba(255, 255, 255, 0.32);
 
-body {
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+//body {
+//  font-family: Arial, sans-serif;
+//  height: 100vh;
+//  width: 100%;
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//}
 
 @mixin span-hover {
   &:hover {
