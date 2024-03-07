@@ -120,7 +120,7 @@ $.fn.extend({
                     $('.nh-today-section button').click(function () {
                         let todayDate = addZero(cuDate.getDate()), todayMonth = addZero(cuDate.getMonth() + 1);
                         $(exception).val(dateFormating(todayDate, todayMonth, cuDate.getFullYear()));
-                        close();
+                        pickerClose();
                     })
 
                     let previewButton = $('.nh-prev-month'), nextButton = $('.nh-next-month');
@@ -250,11 +250,11 @@ $.fn.extend({
                                     })));
 
                                     $(exception).val(dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year) + ' to ' + dateFormating(selectedDate, selectedMonth, year))
-                                    close();
+                                    pickerClose();
                                 }
                             } else {
                                 $(exception).val(dateFormating(selectedDate, selectedMonth, year));
-                                close();
+                                pickerClose();
                             }
                         });
                     }
@@ -448,19 +448,19 @@ $.fn.extend({
                     }
 
                     let thisElement = this;
-                    elements.pickerPositioning(picker, thisElement);
+                    pickerPositioning(picker, thisElement);
 
                     $(body).find('*').on('scroll', function () {
-                        elements.pickerPositioning(picker, thisElement);
+                        pickerPositioning(picker, thisElement);
                     });
 
                     $(window).on('scroll', function () {
-                        elements.pickerPositioning(picker, thisElement);
+                        pickerPositioning(picker, thisElement);
                     });
 
                     open = true;
                 } else {
-                    close();
+                    pickerClose();
                 }
             }
 
@@ -563,10 +563,10 @@ $.fn.extend({
                     }
 
                     let thisElement = this;
-                    elements.pickerPositioning(timePicker, thisElement);
+                    pickerPositioning(timePicker, thisElement);
                     open = true;
                 } else {
-                    close();
+                    pickerClose();
                 }
             }
         });
@@ -582,7 +582,7 @@ $.fn.extend({
             }
 
             if (!target.closest('.nh-picker,.nh-time-picker').length && !target.is(exception)) {
-                close();
+                pickerClose();
                 if (targetClassAll && fieldClassesArray.includes(targetClassAll)) {
                     $(targetClassAll).click();
                 }
@@ -590,14 +590,48 @@ $.fn.extend({
         });
 
         $(window).resize(function () {
-            close();
+            pickerClose();
         });
 
         function addZero(number) {
             return String(number).padStart(2, '0');
         }
 
-        function close() {
+        function pickerPositioning(picker, thisElement) {
+            let pickerWidth = $(picker).outerWidth(), pickerHeight = $(picker).outerHeight();
+
+            let bodyWidth = $(document.body).width(), bodyHeight = $(document.body).height();
+
+            let left = $(thisElement).offset().left, width = $(thisElement).outerWidth(),
+                right = (bodyWidth - (width + left)), height = $(thisElement).outerHeight(),
+                top = $(thisElement).offset().top, topPosition;
+
+            let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
+            if (left > leftCut) {
+                leftPosition = left - leftCut;
+            }
+            if (right < leftCut) {
+                leftPosition = left - (leftCut * 2);
+            }
+
+            if ((bodyHeight - top) < (pickerHeight + 100)) {
+                $(picker).addClass('before-bottom').removeClass('before-top');
+                topPosition = top - (pickerHeight + height + 12);
+            } else {
+                $(picker).addClass('before-top').removeClass('before-bottom')
+                topPosition = (top + height + 12)
+            }
+
+            if (top < 0 || (bodyHeight - top) < 0 || $(thisElement).position().top < 0 || (bodyHeight - $(thisElement).position().top) < 0) {
+                pickerClose()
+            }
+
+            $(picker).css({
+                left: leftPosition, top: topPosition,
+            })
+        }
+
+        function pickerClose() {
             $('.nh-next-month,.nh-prev-month').removeClass('inactive');
             $(picker).remove();
             $(timePicker).remove();
@@ -606,38 +640,37 @@ $.fn.extend({
         }
     },
 
-    pickerPositioning: function (picker, thisElement) {
-        let pickerWidth = $(picker).outerWidth(), pickerHeight = $(picker).outerHeight();
-
-        let bodyWidth = $(document.body).width(), bodyHeight = $(document.body).height();
-
-        let left = $(thisElement).offset().left, width = $(thisElement).outerWidth(),
-            right = (bodyWidth - (width + left)), height = $(thisElement).outerHeight(),
-            top = $(thisElement).offset().top, topPosition;
-
-        let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
-        if (left > leftCut) {
-            leftPosition = left - leftCut;
-        }
-        if (right < leftCut) {
-            leftPosition = left - (leftCut * 2);
-        }
-
-        if ((bodyHeight - top) < (pickerHeight + 100)) {
-            $(picker).addClass('before-bottom').removeClass('before-top');
-            topPosition = top - (pickerHeight + height + 12);
-        } else {
-            $(picker).addClass('before-top').removeClass('before-bottom')
-            topPosition = (top + height + 12)
-        }
-
-        if (top <= 0 || (bodyHeight - top) <= 0 || $(thisElement).position().top <= 0 || (bodyHeight - $(thisElement).position().top) <= 0) {
-            close();
-        }
-
-        $(picker).css({
-            left: leftPosition, top: topPosition,
-        })
-    }
+    // pickerPositioning: function (picker, thisElement) {
+    //     let pickerWidth = $(picker).outerWidth(), pickerHeight = $(picker).outerHeight();
+    //
+    //     let bodyWidth = $(document.body).width(), bodyHeight = $(document.body).height();
+    //
+    //     let left = $(thisElement).offset().left, width = $(thisElement).outerWidth(),
+    //         right = (bodyWidth - (width + left)), height = $(thisElement).outerHeight(),
+    //         top = $(thisElement).offset().top, topPosition;
+    //
+    //     let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
+    //     if (left > leftCut) {
+    //         leftPosition = left - leftCut;
+    //     }
+    //     if (right < leftCut) {
+    //         leftPosition = left - (leftCut * 2);
+    //     }
+    //
+    //     if ((bodyHeight - top) < (pickerHeight + 100)) {
+    //         $(picker).addClass('before-bottom').removeClass('before-top');
+    //         topPosition = top - (pickerHeight + height + 12);
+    //     } else {
+    //         $(picker).addClass('before-top').removeClass('before-bottom')
+    //         topPosition = (top + height + 12)
+    //     }
+    //
+    //     if (top < 0 || (bodyHeight - top) < 0 || $(thisElement).position().top < 0 || (bodyHeight - $(thisElement).position().top) < 0) {
+    //         return false;
+    //     }
+    //
+    //     $(picker).css({
+    //         left: leftPosition, top: topPosition,
+    //     })
+    // }
 })
-
