@@ -16,9 +16,9 @@ body {
   font-family: Arial, sans-serif;
   height: 100vh;
   width: 100%;
-  //display: flex;
-  //justify-content: center;
-  //align-items: start;
+  display: flex;
+  justify-content: left;
+  align-items: end;
 }
 
 @mixin span-hover {

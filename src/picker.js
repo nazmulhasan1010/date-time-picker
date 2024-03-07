@@ -616,7 +616,7 @@ $.fn.extend({
 
             if ((bodyHeight - top) < (pickerHeight + 100)) {
                 $(picker).addClass('before-bottom').removeClass('before-top');
-                topPosition = top - (pickerHeight + height + 12);
+                topPosition = top - (pickerHeight + 12);
             } else {
                 $(picker).addClass('before-top').removeClass('before-bottom')
                 topPosition = (top + height + 12)
