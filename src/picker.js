@@ -540,13 +540,13 @@ $.fn.extend({
                             }
                         }
 
-                        $(place).children(`input.nh-active`).val(value === 24 ? 0 : value);
+                        $(place).children(`input.nh-active`).val(value === 24 && count === 24 ? 0 : value);
 
                         let values = {
-                            'v1': (((value - 3 + count) % count) + 1) === 24 ? 0 : (((value - 3 + count) % count) + 1),
-                            'v2': (((value - 2 + count) % count) + 1) === 24 ? 0 : (((value - 2 + count) % count) + 1),
-                            'v4': ((value % count) + 1) === 24 ? 0 : ((value % count) + 1),
-                            'v5': ((value % count) + 2) > count ? 1 : ((value % count) + 2) === 24 ? 0 : ((value % count) + 2),
+                            'v1': (((value - 3 + count) % count) + 1) === 24 && count === 24 ? 0 : (((value - 3 + count) % count) + 1),
+                            'v2': (((value - 2 + count) % count) + 1) === 24 && count === 24 ? 0 : (((value - 2 + count) % count) + 1),
+                            'v4': ((value % count) + 1) === 24 && count === 24 ? 0 : ((value % count) + 1),
+                            'v5': ((value % count) + 2) > count ? 1 : ((value % count) + 2) === 24 && count === 24 ? 0 : ((value % count) + 2),
                         }
 
                         for (let i = 1; i < 6; i++) {
