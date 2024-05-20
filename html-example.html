@@ -6,11 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Picker</title>
-    <link rel="stylesheet" href="src/nh-picker.css">
+    <!--    <link rel="stylesheet" href="src/nh-picker.css">-->
+    <style>
+        .picker-light {
+            --bg-color: red;
+        }
+
+        .picker-dark {
+            --bg-color: #413131;
+        }
+
+        .nh-picker {
+            background-color: var(--bg-color);
+        }
+    </style>
 </head>
-<body>
+<body class="nh-picker picker-dark">
 <input type="text" class="picker nh-picker">
-<div class="nh-picker">
+<div class="nh-picker picker-dark">
     <div class="nh-datepicker-calendar">
         <div class="nh-calendar-header">
             <span class="nh-header-content nh-prev-month">&lt;</span>
@@ -51,13 +64,27 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="src/picker.min.js"></script>
+<script src="src/w3color.min.js"></script>
+<script src="src/ntc.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('.picker').picker({
-            format: 'yyyy-mm-dd'
-        });
+        let color = $('body').css('background-color');
+
+        function isColorDark(color) {
+            let rgb = color.match(/\d+/g).map(Number);
+            let a = [rgb[0], rgb[1], rgb[2]].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            let lum = 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+            return lum < 0.5;
+        }
+
+        let colorN = "FFA812";
+        console.log(isColorDark(color));
     });
 </script>
 </body>

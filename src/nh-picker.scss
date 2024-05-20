@@ -6,33 +6,53 @@
   box-sizing: border-box;
 }
 
-$colorBlue: rgba(91, 66, 243, 0.79);
-$colorBlueLight: rgb(136, 120, 244);
-$colorWhite: #fff;
-$colorBlack-50: rgba(2, 0, 0, 0.50);
-$colorGray: rgba(255, 255, 255, 0.32);
+
+.nh-picker-theme-light {
+  --indicator-color: rgba(91, 66, 243, 0.79);
+  --blue-light: rgb(136, 120, 244);
+  --primary-color: #fff;
+  --secondary-color: rgba(2, 0, 0, 0.50);
+  --button-span-color: #333;
+}
+
+
+.nh-picker-theme-dark {
+  //--indicator-color: rgba(91, 66, 243, 0.79);
+  --indicator-color: #5AB2FF;
+  --blue-light: rgb(136, 120, 244);
+  //--primary-color: rgb(33, 37, 41);
+  --primary-color: #2C4E80;
+  --secondary-color: rgba(255, 255, 255, 0.35);
+  --button-span-color: #fff;
+}
+
+$indicatorColor: var(--indicator-color);
+$blueLight: var(--blue-light);
+$primaryColor: var(--primary-color);
+$secondaryColor: var(--secondary-color);
+$buttonSpanColor: var(--button-span-color);
 
 body {
   font-family: Arial, sans-serif;
   height: 100vh;
   width: 100%;
-  display: flex;
-  justify-content: left;
-  align-items: end;
+  //display: flex;
+  //justify-content: flex-end;
+  //align-items: center;
 }
 
 @mixin span-hover {
   &:hover {
-    background-color: $colorBlue !important;
-    color: $colorWhite !important;
+    background-color: $indicatorColor !important;
+    color: $primaryColor !important;
     border-radius: 3px;
   }
 }
 
 @mixin span-hover-r($radius) {
   &:hover {
-    background-color: $colorBlue !important;
-    color: $colorWhite !important;
+    background-color: $indicatorColor !important;
+    color: $primaryColor !important;
     border-radius: $radius;
   }
 }
@@ -40,10 +60,10 @@ body {
 @mixin nh-picker {
   height: auto;
   width: 300px;
-  background-color: $colorWhite;
-  border: 1px solid $colorBlue;
+  background-color: $primaryColor;
+  border: 1px solid $indicatorColor;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 7px;
   position: absolute;
   font-family: "Mulish", sans-serif;
   font-optical-sizing: auto;
@@ -52,31 +72,46 @@ body {
   &::before {
     content: '';
     position: absolute;
-    left: calc(50% - 7.5px);
     transform: rotate(45deg);
-    height: 15px;
-    width: 15px;
+    height: 12px;
+    width: 12px;
     border-radius: 5px 0 20px 0;
-    border: 1px solid $colorBlue;
+    border: 1px solid $indicatorColor;
     border-right: none;
     border-bottom: none;
-    background-color: $colorWhite;
+    background-color: $primaryColor;
   }
 
   &.before-top::before {
-    top: -8.5px;
+    top: -6px;
     border-radius: 5px 0 20px 0;
-    border: 1px solid $colorBlue;
+    border: 1px solid $indicatorColor;
     border-right: none;
     border-bottom: none;
   }
 
   &.before-bottom:before {
-    bottom: -8.5px;
+    bottom: -6px;
     border-radius: 20px 0 5px 0;
-    border: 1px solid $colorBlue;
+    border: 1px solid $indicatorColor;
     border-left: none;
     border-top: none;
+  }
+
+  &.before-left:before {
+    left: 20px;
+  }
+
+  &.before-middle:before {
+    left: calc(50% - 6px);
+  }
+
+  &.before-right:before {
+    right: 20px;
+  }
+
+  button, span, div, input {
+    color: $buttonSpanColor;
   }
 }
 
@@ -106,32 +141,32 @@ body {
           background: none;
           outline: none;
           padding: 5px 15px;
-          border: 1px solid $colorBlue;
+          border: 1px solid $indicatorColor;
           border-radius: 20px;
           user-select: none;
 
           &:hover {
-            background-color: $colorBlue !important;
-            color: $colorWhite !important;
+            background-color: $indicatorColor !important;
+            color: $primaryColor !important;
           }
         }
 
         &.nh-header-content-text {
           padding: 5px 10px;
-          border: 1px solid $colorBlue;
+          border: 1px solid $indicatorColor;
           border-radius: 20px;
           user-select: none;
         }
 
         &.nh-prev-month, &.nh-next-month {
           padding: 5px 10px;
-          border: 1px solid $colorBlue;
+          border: 1px solid $indicatorColor;
           border-radius: 20px;
           user-select: none;
 
           &:not(.inactive):hover {
-            background-color: $colorBlue !important;
-            color: $colorWhite !important;
+            background-color: $indicatorColor !important;
+            color: $primaryColor !important;
           }
         }
       }
@@ -157,11 +192,11 @@ body {
           }
 
           &.nh-current-disable {
-            color: $colorBlack-50;
+            color: $secondaryColor;
           }
 
           &.nh-previous-days, &.nh-next-days {
-            color: $colorBlack-50;
+            color: $secondaryColor;
           }
         }
       }
@@ -182,14 +217,14 @@ body {
 
       span {
         text-align: center;
-        background-color: $colorWhite !important;
+        background-color: $primaryColor !important;
         text-transform: uppercase;
         padding: 3px 0;
         font-size: 16px;
         margin: 5px 0;
 
         &.nh-current-disable {
-          color: $colorBlack-50;
+          color: $secondaryColor;
         }
 
         &.nh-year-valid {
@@ -206,14 +241,14 @@ body {
 
       span {
         text-align: center;
-        background-color: $colorWhite !important;
+        background-color: $primaryColor !important;
         text-transform: capitalize;
         padding: 3px 0;
         font-size: 16px;
         margin: 5px 0;
 
         &.nh-current-disable {
-          color: $colorBlack-50;
+          color: $secondaryColor;
         }
 
         &.nh-month-valid {
@@ -231,7 +266,7 @@ body {
         background: none;
         outline: none;
         padding: 5px 20px;
-        border: 1px solid $colorBlue;
+        border: 1px solid $indicatorColor;
         border-radius: 20px;
         user-select: none;
         @include span-hover-r(20px);
@@ -239,8 +274,8 @@ body {
     }
 
     .nh-span-active {
-      background-color: $colorBlue !important;
-      color: $colorWhite !important;
+      background-color: $indicatorColor !important;
+      color: $primaryColor !important;
       border-radius: 3px;
     }
 
@@ -282,7 +317,7 @@ body {
         pointer-events: none !important;
 
         &.nh-active {
-          color: $colorWhite !important;
+          color: $primaryColor !important;
         }
       }
     }
@@ -329,7 +364,7 @@ body {
     .nh-time-selector {
       height: 33px;
       width: 100%;
-      background-color: $colorBlueLight;
+      background-color: $indicatorColor;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);

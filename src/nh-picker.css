@@ -5,22 +5,35 @@
   box-sizing: border-box;
 }
 
+.nh-picker-theme-light {
+  --indicator-color: rgba(91, 66, 243, 0.79);
+  --blue-light: rgb(136, 120, 244);
+  --primary-color: #fff;
+  --secondary-color: rgba(2, 0, 0, 0.50);
+  --button-span-color: #333;
+}
+
+.nh-picker-theme-dark {
+  --indicator-color: #5AB2FF;
+  --blue-light: rgb(136, 120, 244);
+  --primary-color: #2C4E80;
+  --secondary-color: rgba(255, 255, 255, 0.35);
+  --button-span-color: #fff;
+}
+
 body {
   font-family: Arial, sans-serif;
   height: 100vh;
   width: 100%;
-  display: flex;
-  justify-content: left;
-  align-items: end;
 }
 
 .nh-picker {
   height: auto;
   width: 300px;
-  background-color: #fff;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  background-color: var(--primary-color);
+  border: 1px solid var(--indicator-color);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 7px;
   position: absolute;
   font-family: "Mulish", sans-serif;
   font-optical-sizing: auto;
@@ -29,29 +42,40 @@ body {
 .nh-picker::before {
   content: "";
   position: absolute;
-  left: calc(50% - 7.5px);
   transform: rotate(45deg);
-  height: 15px;
-  width: 15px;
+  height: 12px;
+  width: 12px;
   border-radius: 5px 0 20px 0;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-right: none;
   border-bottom: none;
-  background-color: #fff;
+  background-color: var(--primary-color);
 }
 .nh-picker.before-top::before {
-  top: -8.5px;
+  top: -6px;
   border-radius: 5px 0 20px 0;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-right: none;
   border-bottom: none;
 }
 .nh-picker.before-bottom:before {
-  bottom: -8.5px;
+  bottom: -6px;
   border-radius: 20px 0 5px 0;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-left: none;
   border-top: none;
+}
+.nh-picker.before-left:before {
+  left: 20px;
+}
+.nh-picker.before-middle:before {
+  left: calc(50% - 6px);
+}
+.nh-picker.before-right:before {
+  right: 20px;
+}
+.nh-picker button, .nh-picker span, .nh-picker div, .nh-picker input {
+  color: var(--button-span-color);
 }
 .nh-picker .nh-datepicker-calendar {
   height: 100%;
@@ -74,29 +98,29 @@ body {
   background: none;
   outline: none;
   padding: 5px 15px;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-radius: 20px;
   user-select: none;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span button:hover {
-  background-color: rgba(91, 66, 243, 0.79) !important;
-  color: #fff !important;
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-header-content-text {
   padding: 5px 10px;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-radius: 20px;
   user-select: none;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month {
   padding: 5px 10px;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-radius: 20px;
   user-select: none;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month:not(.inactive):hover, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month:not(.inactive):hover {
-  background-color: rgba(91, 66, 243, 0.79) !important;
-  color: #fff !important;
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days {
   margin-top: 10px;
@@ -114,15 +138,15 @@ body {
   font-size: 16px;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-current:hover, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-current:hover {
-  background-color: rgba(91, 66, 243, 0.79) !important;
-  color: #fff !important;
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
   border-radius: 3px;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-current-disable, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-current-disable {
-  color: rgba(2, 0, 0, 0.5);
+  color: var(--secondary-color);
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-previous-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-names span.nh-next-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-previous-days, .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span.nh-next-days {
-  color: rgba(2, 0, 0, 0.5);
+  color: var(--secondary-color);
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-days .nh-day-date span {
   font-weight: normal;
@@ -136,18 +160,18 @@ body {
 }
 .nh-picker .nh-datepicker-calendar .nh-years span {
   text-align: center;
-  background-color: #fff !important;
+  background-color: var(--primary-color) !important;
   text-transform: uppercase;
   padding: 3px 0;
   font-size: 16px;
   margin: 5px 0;
 }
 .nh-picker .nh-datepicker-calendar .nh-years span.nh-current-disable {
-  color: rgba(2, 0, 0, 0.5);
+  color: var(--secondary-color);
 }
 .nh-picker .nh-datepicker-calendar .nh-years span.nh-year-valid:hover {
-  background-color: rgba(91, 66, 243, 0.79) !important;
-  color: #fff !important;
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
   border-radius: 3px;
 }
 .nh-picker .nh-datepicker-calendar .nh-month {
@@ -158,18 +182,18 @@ body {
 }
 .nh-picker .nh-datepicker-calendar .nh-month span {
   text-align: center;
-  background-color: #fff !important;
+  background-color: var(--primary-color) !important;
   text-transform: capitalize;
   padding: 3px 0;
   font-size: 16px;
   margin: 5px 0;
 }
 .nh-picker .nh-datepicker-calendar .nh-month span.nh-current-disable {
-  color: rgba(2, 0, 0, 0.5);
+  color: var(--secondary-color);
 }
 .nh-picker .nh-datepicker-calendar .nh-month span.nh-month-valid:hover {
-  background-color: rgba(91, 66, 243, 0.79) !important;
-  color: #fff !important;
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
   border-radius: 3px;
 }
 .nh-picker .nh-datepicker-calendar .nh-today-section {
@@ -181,18 +205,18 @@ body {
   background: none;
   outline: none;
   padding: 5px 20px;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-radius: 20px;
   user-select: none;
 }
 .nh-picker .nh-datepicker-calendar .nh-today-section button:hover {
-  background-color: rgba(91, 66, 243, 0.79) !important;
-  color: #fff !important;
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
   border-radius: 20px;
 }
 .nh-picker .nh-datepicker-calendar .nh-span-active {
-  background-color: rgba(91, 66, 243, 0.79) !important;
-  color: #fff !important;
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
   border-radius: 3px;
 }
 .nh-picker .nh-datepicker-calendar .nh-active {
@@ -205,10 +229,10 @@ body {
 .nh-time-picker {
   height: auto;
   width: 300px;
-  background-color: #fff;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  background-color: var(--primary-color);
+  border: 1px solid var(--indicator-color);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 7px;
   position: absolute;
   font-family: "Mulish", sans-serif;
   font-optical-sizing: auto;
@@ -218,29 +242,40 @@ body {
 .nh-time-picker::before {
   content: "";
   position: absolute;
-  left: calc(50% - 7.5px);
   transform: rotate(45deg);
-  height: 15px;
-  width: 15px;
+  height: 12px;
+  width: 12px;
   border-radius: 5px 0 20px 0;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-right: none;
   border-bottom: none;
-  background-color: #fff;
+  background-color: var(--primary-color);
 }
 .nh-time-picker.before-top::before {
-  top: -8.5px;
+  top: -6px;
   border-radius: 5px 0 20px 0;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-right: none;
   border-bottom: none;
 }
 .nh-time-picker.before-bottom:before {
-  bottom: -8.5px;
+  bottom: -6px;
   border-radius: 20px 0 5px 0;
-  border: 1px solid rgba(91, 66, 243, 0.79);
+  border: 1px solid var(--indicator-color);
   border-left: none;
   border-top: none;
+}
+.nh-time-picker.before-left:before {
+  left: 20px;
+}
+.nh-time-picker.before-middle:before {
+  left: calc(50% - 6px);
+}
+.nh-time-picker.before-right:before {
+  right: 20px;
+}
+.nh-time-picker button, .nh-time-picker span, .nh-time-picker div, .nh-time-picker input {
+  color: var(--button-span-color);
 }
 .nh-time-picker .nh-time-content {
   display: flex;
@@ -266,7 +301,7 @@ body {
   pointer-events: none !important;
 }
 .nh-time-picker .nh-time-content .nh-time-hours input.nh-active, .nh-time-picker .nh-time-content .nh-time-minute input.nh-active, .nh-time-picker .nh-time-content .nh-time-format input.nh-active {
-  color: #fff !important;
+  color: var(--primary-color) !important;
 }
 .nh-time-picker .nh-time-content :not(.nh-time-format) input:nth-child(1) {
   transform: rotateX(-50deg);
@@ -297,7 +332,7 @@ body {
 .nh-time-picker .nh-time-content .nh-time-selector {
   height: 33px;
   width: 100%;
-  background-color: rgb(136, 120, 244);
+  background-color: var(--indicator-color);
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

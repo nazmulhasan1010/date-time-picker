@@ -1,11 +1,13 @@
 $.fn.extend({
     picker: function (options = {}) {
         let body = $('body') ?? $(window), elements = $(this), div = '<div>', span = '<span>',
-            picker = $(div, {class: 'nh-picker before-top'}), timePicker = $(div, {class: 'nh-time-picker before-top'}),
+            picker = $(div, {class: 'nh-picker before-top'}),
+            timePicker = $(div, {class: 'nh-time-picker before-top'}),
             calendar = $(div, {class: 'nh-datepicker-calendar'}), headerSection = $(div, {class: 'nh-calendar-header'}),
             open = false, formatOp = options.dateFormat ?? 'dd/mm/yyyy', minDateOp = options.minDate ?? null,
             maxDateOp = options.maxDate ?? null, todayOp = options.today ?? false, typeOp = options.type,
-            dateRangeOp = options.dateRange ?? false, rangeA = {}, timeFormatOp = options.timeFormat ?? 12;
+            dateRangeOp = options.dateRange ?? false, rangeA = {}, timeFormatOp = options.timeFormat ?? 12,
+            themeOp = options.theme ?? 'auto';
 
         headerSection.append($(span, {
             class: 'nh-header-content nh-prev-month', html: '&lt;'
@@ -22,7 +24,7 @@ $.fn.extend({
         }))).append($($('<div>', {class: 'nh-time-selector'}))));
 
         let field, fieldClasses = '', exception;
-        $.each(elements, function (index, element) {
+        $.each(elements, function (index, element = null) {
             field = $('<input>', {
                 type: 'text',
                 'data-type': $(element).attr('type'),
@@ -38,6 +40,7 @@ $.fn.extend({
                 'data-nh-max-date': $(element).data('nhMaxDate'),
                 'data-nh-date-range': $(element).data('nhDateRange'),
                 'data-nh-time-format': $(element).data('nhTimeFormat'),
+                'data-nh-picker-theme': $(element).data('nhPickerTheme'),
             });
 
             let comma = ',', fieldClasses = $(field).attr('class').split(/\s+/), singleElementClass = '';
@@ -56,14 +59,43 @@ $.fn.extend({
             fieldClasses += singleElementClass + comma;
         }
 
+        function isDark(color) {
+            let rgb = color.match(/\d+/g).map(Number);
+            let a = [rgb[0], rgb[1], rgb[2]].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            let lum = 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+            return lum < 0.5;
+        }
+
         let fieldClassesArray = fieldClasses.split(',');
 
         $(fieldClasses).click(function () {
             let pickerActiveClass = $(this).attr('class').split(/\s+/),
                 format = $(this).data('nhDateFormat') ?? formatOp, todayActive = $(this).data('nhToday') ?? todayOp,
                 pickerType = $(this).data('type') === 'date' || $(this).data('type') === 'time' ? $(this).data('type') : typeOp === 'date' || typeOp === 'time' ? typeOp : 'date',
+                theme = $(this).data('nhPickerTheme') ?? themeOp,
                 dateRange = $(this).data('nhDateRange') ?? dateRangeOp;
 
+            picker.removeClass('nh-picker-theme-light nh-picker-theme-dark');
+            timePicker.removeClass('nh-picker-theme-light nh-picker-theme-dark');
+
+            if (theme === 'light') {
+                picker.addClass('nh-picker-theme-light');
+                timePicker.addClass('nh-picker-theme-light');
+            } else if (theme === 'dark') {
+                picker.addClass('nh-picker-theme-dark');
+                timePicker.addClass('nh-picker-theme-dark');
+            } else if (theme === 'auto') {
+                if (isDark($(this).css('background-color'))) {
+                    picker.addClass('nh-picker-theme-dark');
+                    timePicker.addClass('nh-picker-theme-dark');
+                } else {
+                    picker.addClass('nh-picker-theme-light');
+                    timePicker.addClass('nh-picker-theme-light');
+                }
+            }
             // date picker
             if (pickerType === 'date') {
                 if (open === false) {
@@ -472,7 +504,7 @@ $.fn.extend({
                         exception += '.' + pickerActiveClass[i];
                     }
 
-                    let timeFormat = $(this).data('nhTimeFormat') ?? timeFormatOp;
+                    let timeFormat = parseInt($(this).data('nhTimeFormat') ?? timeFormatOp);
 
                     let cuTime = new Date(), cuHr = cuTime.getHours(), cuMinute = cuTime.getMinutes(),
                         cuSecond = cuTime.getSeconds();
@@ -607,10 +639,17 @@ $.fn.extend({
                 top = $(thisElement).offset().top, topPosition;
 
             let leftCut = ((pickerWidth - width) / 2), leftPosition = left;
+            $(picker).addClass('before-left').removeClass('before-middle before-right');
             if (left > leftCut) {
+                if (width > pickerWidth) {
+                    $(picker).addClass('before-left').removeClass('before-middle before-right');
+                } else {
+                    $(picker).addClass('before-middle').removeClass('before-left before-right');
+                }
                 leftPosition = left - leftCut;
             }
             if (right < leftCut) {
+                $(picker).addClass('before-right').removeClass('before-left before-middle');
                 leftPosition = left - (leftCut * 2);
             }
 
