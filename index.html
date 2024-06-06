@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
-<!--<html lang="en">-->
+<!--<html lang="en" data-bs-theme="light">-->
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,11 +11,11 @@
     <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nh-picker/style/nh-picker.min.css">-->
 </head>
 <body>
-<input type="date" class="picker bg-white pic" data-nh-date-format="dd-mm-yyyy" data-nh-min-date="5/7/2022"
+<input type="date" class="picker bg-light pic" data-nh-date-format="dd-mm-yyyy" data-nh-min-date="5/7/2022"
        data-nh-max-date="20/6/2024" data-nh-date-range="false" value="25-10-2025" name="birth-day">
-<input type="time" class="picker bg-dark pic" data-nh-time-format="12" data-nh-picker-theme="light">
+<input type="time" class="picker bg-dark pic" data-nh-time-format="12">
 <input type="time" class="picker bg-danger pic" data-nh-time-format="24">
-<input type="text" class="picker pic" name="event" data-nh-today="true">
+<input type="text" class="picker pic" name="event">
 
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -49,7 +49,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="message-text-4" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text-4"></textarea>
+                        <textarea class="form-control" data-nh-picker-theme="light" id="message-text-4"></textarea>
                     </div>
                 </form>
             </div>
@@ -72,12 +72,12 @@
     $(function () {
         $('.picker,#recipient-name,#message-text-4').picker({
             dateFormat: 'dd-mm-yyyy',
-            minDate: '5/2/2023',
-            maxDate: '25/8/2024',
+            //  minDate: '5/2/2023',
+            //  maxDate: '25/8/2024',
             today: false,
             dateRange: true,
             timeFormat: 12,
-            theme: 'dark',
+            // theme: 'dark',
         });
     });
 </script>

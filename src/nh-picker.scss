@@ -159,7 +159,10 @@ body {
         }
 
         &.nh-prev-month, &.nh-next-month {
-          padding: 5px 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px;
           border: 1px solid $indicatorColor;
           border-radius: 20px;
           user-select: none;

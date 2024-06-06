@@ -113,7 +113,10 @@ body {
   user-select: none;
 }
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month {
-  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
   border: 1px solid var(--indicator-color);
   border-radius: 20px;
   user-select: none;

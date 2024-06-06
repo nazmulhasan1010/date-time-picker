@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Picker</title>
     <!--    <link rel="stylesheet" href="src/nh-picker.css">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nh-picker/style/nh-picker.min.css">
     <style>
         .picker-light {
             --bg-color: red;
@@ -21,56 +22,70 @@
         }
     </style>
 </head>
-<body class="nh-picker picker-dark">
-<input type="text" class="picker nh-picker">
-<div class="nh-picker picker-dark">
-    <div class="nh-datepicker-calendar">
-        <div class="nh-calendar-header">
-            <span class="nh-header-content nh-prev-month">&lt;</span>
-            <span class="nh-header-content nh-current-month-year"> <button></button> , <button></button></span>
-            <span class="nh-header-content-text nh-next-month nh-inactive"></span>
-            <span class="nh-header-content nh-next-month">&gt;</span>
-        </div>
-        <div class="nh-content nh-calendar-days nh-active">
-            <div class="nh-day-names"></div>
-            <div class="nh-day-date"></div>
-        </div>
-        <div class="nh-content nh-years nh-inactive"></div>
-        <div class="nh-content nh-month nh-inactive"></div>
-    </div>
-</div>
+<body>
+<!--<input type="date" class="picker bg-white pic" data-nh-date-format="dd-mm-yyyy" data-nh-min-date="5/7/2022"-->
+<!--       data-nh-max-date="20/6/2024" data-nh-date-range="false" value="25-10-2025" name="birth-day">-->
+<input type="time" class="picker bg-dark pic" data-nh-time-format="12" data-nh-picker-theme="light">
+<input type="time" class="picker bg-danger pic" data-nh-time-format="24">
+<input type="text" class="picker pic" name="event" data-nh-today="true">
+<!--<div class="nh-picker picker-dark">-->
+<!--    <div class="nh-datepicker-calendar">-->
+<!--        <div class="nh-calendar-header">-->
+<!--            <span class="nh-header-content nh-prev-month">&lt;</span>-->
+<!--            <span class="nh-header-content nh-current-month-year"> <button></button> , <button></button></span>-->
+<!--            <span class="nh-header-content-text nh-next-month nh-inactive"></span>-->
+<!--            <span class="nh-header-content nh-next-month">&gt;</span>-->
+<!--        </div>-->
+<!--        <div class="nh-content nh-calendar-days nh-active">-->
+<!--            <div class="nh-day-names"></div>-->
+<!--            <div class="nh-day-date"></div>-->
+<!--        </div>-->
+<!--        <div class="nh-content nh-years nh-inactive"></div>-->
+<!--        <div class="nh-content nh-month nh-inactive"></div>-->
+<!--    </div>-->
+<!--</div>-->
 
-<div class="nh-time-picker before-top">
-    <div class="nh-time-content">
-        <div class="nh-time-hours">
-            <span>1</span>
-            <span>2</span>
-            <span class="active" data-value="3">3</span>
-            <span>4</span>
-            <span>5</span>
-        </div>
-        <div class="nh-time-minute">
-            <span>1</span>
-            <span>2</span>
-            <span class="active" data-value="3">3</span>
-            <span>4</span>
-            <span>5</span>
-        </div>
-        <div class="nh-time-format">
-            <span class="active" data-value="am">AM</span>
-            <span class="inactive" data-value="pm">PM</span>
-        </div>
-        <div class="nh-time-selector"></div>
-    </div>
-</div>
+<!--<div class="nh-time-picker before-top">-->
+<!--    <div class="nh-time-content">-->
+<!--        <div class="nh-time-hours">-->
+<!--            <span>1</span>-->
+<!--            <span>2</span>-->
+<!--            <span class="active" data-value="3">3</span>-->
+<!--            <span>4</span>-->
+<!--            <span>5</span>-->
+<!--        </div>-->
+<!--        <div class="nh-time-minute">-->
+<!--            <span>1</span>-->
+<!--            <span>2</span>-->
+<!--            <span class="active" data-value="3">3</span>-->
+<!--            <span>4</span>-->
+<!--            <span>5</span>-->
+<!--        </div>-->
+<!--        <div class="nh-time-format">-->
+<!--            <span class="active" data-value="am">AM</span>-->
+<!--            <span class="inactive" data-value="pm">PM</span>-->
+<!--        </div>-->
+<!--        <div class="nh-time-selector"></div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="src/picker.min.js"></script>
-<script src="src/w3color.min.js"></script>
-<script src="src/ntc.min.js"></script>
+<!--<script src="src/picker.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/nh-picker/js/picker.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(function () {
+
+        $('.picker,#recipient-name,#message-text-4').picker({
+            dateFormat: 'dd-mm-yyyy',
+            minDate: '5/2/2023',
+            maxDate: '25/8/2024',
+            today: false,
+            dateRange: true,
+            timeFormat: 12,
+            theme: 'dark',
+        });
+
         let color = $('body').css('background-color');
 
         function isColorDark(color) {

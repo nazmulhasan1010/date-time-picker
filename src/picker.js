@@ -9,11 +9,41 @@ $.fn.extend({
             dateRangeOp = options.dateRange ?? false, rangeA = {}, timeFormatOp = options.timeFormat ?? 12,
             themeOp = options.theme ?? 'auto';
 
+        function arrowAdjust(dimension) {
+
+            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+            $(svg).attr({
+                xmlns: 'http://www.w3.org/2000/svg',
+                viewBox: '0 0 320 512',
+                height: 15,
+                width: 15,
+            });
+
+            let arrow;
+            if (dimension === 'left') {
+                let arrowLeft = $(path).attr({
+                    d: 'M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z'
+                });
+                arrow = $(svg).html(arrowLeft);
+            }
+
+            if (dimension === 'right') {
+                let arrowRight = $(path).attr({
+                    d: 'M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z'
+                });
+                arrow = $(svg).html(arrowRight);
+            }
+            return arrow;
+        }
+
         headerSection.append($(span, {
-            class: 'nh-header-content nh-prev-month', html: '&lt;'
+            class: 'nh-header-content nh-prev-month', html: arrowAdjust('left')
         })).append($(span, {class: 'nh-header-content nh-current-month-year',}).append('<button></button>  <button></button>')).append($(span, {class: 'nh-header-content-text nh-inactive'})).append($(span, {
-            class: 'nh-header-content nh-next-month', html: '&gt;'
+            class: 'nh-header-content nh-next-month', html: arrowAdjust('right')
         }));
+
 
         picker.append(calendar.append(headerSection).append($(div, {class: 'nh-content nh-calendar-days nh-active'}).append($(div, {class: 'nh-day-names'})).append($(div, {class: 'nh-day-date'}))).append($(div, {class: 'nh-content nh-years nh-inactive'})).append($(div, {class: 'nh-content nh-month nh-inactive'})));
 
@@ -82,20 +112,18 @@ $.fn.extend({
             timePicker.removeClass('nh-picker-theme-light nh-picker-theme-dark');
 
             if (theme === 'light') {
-                picker.addClass('nh-picker-theme-light');
-                timePicker.addClass('nh-picker-theme-light');
+                picker.add(timePicker).addClass('nh-picker-theme-light');
             } else if (theme === 'dark') {
-                picker.addClass('nh-picker-theme-dark');
-                timePicker.addClass('nh-picker-theme-dark');
+                picker.add(timePicker).addClass('nh-picker-theme-dark');
             } else if (theme === 'auto') {
-                if (isDark($(this).css('background-color'))) {
-                    picker.addClass('nh-picker-theme-dark');
-                    timePicker.addClass('nh-picker-theme-dark');
-                } else {
-                    picker.addClass('nh-picker-theme-light');
-                    timePicker.addClass('nh-picker-theme-light');
+                let dark = isDark($(this).css('background-color')),
+                    bsTheme = $('html').attr('data-bs-theme');
+                if (bsTheme !== undefined && bsTheme === 'dark') {
+                    dark = true;
                 }
+                picker.add(timePicker).addClass(dark ? 'nh-picker-theme-dark' : 'nh-picker-theme-light');
             }
+
             // date picker
             if (pickerType === 'date') {
                 if (open === false) {
