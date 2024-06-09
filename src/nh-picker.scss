@@ -167,6 +167,12 @@ body {
           border-radius: 20px;
           user-select: none;
 
+          .arrow-svg {
+            .arrow-svg-path {
+              fill: $buttonSpanColor;
+            }
+          }
+
           &:not(.inactive):hover {
             background-color: $indicatorColor !important;
             color: $primaryColor !important;
@@ -233,6 +239,12 @@ body {
         &.nh-year-valid {
           @include span-hover;
         }
+
+        &.nh-span-active {
+          background-color: $indicatorColor !important;
+          color: $primaryColor !important;
+          border-radius: 3px;
+        }
       }
     }
 
@@ -256,6 +268,12 @@ body {
 
         &.nh-month-valid {
           @include span-hover;
+        }
+
+        &.nh-span-active {
+          background-color: $indicatorColor !important;
+          color: $primaryColor !important;
+          border-radius: 3px;
         }
       }
     }

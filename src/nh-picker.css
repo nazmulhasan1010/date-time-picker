@@ -121,6 +121,9 @@ body {
   border-radius: 20px;
   user-select: none;
 }
+.nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month .arrow-svg .arrow-svg-path, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month .arrow-svg .arrow-svg-path {
+  fill: var(--button-span-color);
+}
 .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-prev-month:not(.inactive):hover, .nh-picker .nh-datepicker-calendar .nh-calendar-header span.nh-next-month:not(.inactive):hover {
   background-color: var(--indicator-color) !important;
   color: var(--primary-color) !important;
@@ -177,6 +180,11 @@ body {
   color: var(--primary-color) !important;
   border-radius: 3px;
 }
+.nh-picker .nh-datepicker-calendar .nh-years span.nh-span-active {
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
+  border-radius: 3px;
+}
 .nh-picker .nh-datepicker-calendar .nh-month {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -195,6 +203,11 @@ body {
   color: var(--secondary-color);
 }
 .nh-picker .nh-datepicker-calendar .nh-month span.nh-month-valid:hover {
+  background-color: var(--indicator-color) !important;
+  color: var(--primary-color) !important;
+  border-radius: 3px;
+}
+.nh-picker .nh-datepicker-calendar .nh-month span.nh-span-active {
   background-color: var(--indicator-color) !important;
   color: var(--primary-color) !important;
   border-radius: 3px;
