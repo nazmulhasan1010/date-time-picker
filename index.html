@@ -15,7 +15,7 @@
        data-nh-max-date="20/6/2024" data-nh-date-range="false" value="25-10-2025" name="birth-day">
 <input type="time" class="picker bg-dark pic" data-nh-time-format="12">
 <input type="time" class="picker bg-danger pic" data-nh-time-format="24">
-<input type="text" class="picker pic" name="event">
+<input type="text" class="picker pic" data-nh-clear="true" name="event">
 
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -72,12 +72,14 @@
     $(function () {
         $('.picker,#recipient-name,#message-text-4').picker({
             dateFormat: 'dd-mm-yyyy',
-            //  minDate: '5/2/2023',
-            //  maxDate: '25/8/2024',
+            minDate: '5/2/2020',
+            maxDate: '25/8/2024',
             today: false,
-            dateRange: true,
+            clear: false,
+            // dateRange: true,
             timeFormat: 12,
             // theme: 'dark',
+            monthSelection: false,
         });
     });
 </script>

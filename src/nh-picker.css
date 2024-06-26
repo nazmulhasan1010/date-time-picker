@@ -212,12 +212,12 @@ body {
   color: var(--primary-color) !important;
   border-radius: 3px;
 }
-.nh-picker .nh-datepicker-calendar .nh-today-section {
+.nh-picker .nh-datepicker-calendar .picker-footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
-.nh-picker .nh-datepicker-calendar .nh-today-section button {
+.nh-picker .nh-datepicker-calendar .picker-footer button {
   background: none;
   outline: none;
   padding: 5px 20px;
@@ -225,7 +225,7 @@ body {
   border-radius: 20px;
   user-select: none;
 }
-.nh-picker .nh-datepicker-calendar .nh-today-section button:hover {
+.nh-picker .nh-datepicker-calendar .picker-footer button:hover {
   background-color: var(--indicator-color) !important;
   color: var(--primary-color) !important;
   border-radius: 20px;

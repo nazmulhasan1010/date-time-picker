@@ -107,7 +107,7 @@ To show today button, you can use...
 
 ```html
 <!-- This value will be 'true' or 'false' -->
-<!-- default value 'false' -->
+<!-- default value 'true' -->
 <input type="date" class="picker" data-nh-today="true" name="birthday">
 ```
 
@@ -115,7 +115,23 @@ To show today button, you can use...
 
 ```javascript
 $('.picker').picker({
-    today: true, // default value 'false'
+    today: true, // default value 'true'
+});
+```
+
+To show clear button, you can use...
+
+```html
+<!-- This value will be 'true' or 'false' -->
+<!-- default value 'true' -->
+<input type="date" class="picker" data-nh-clear="true" name="birthday">
+```
+
+```or```
+
+```javascript
+$('.picker').picker({
+    clear: true, // default value 'true'
 });
 ```
 
