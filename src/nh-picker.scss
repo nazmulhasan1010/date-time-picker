@@ -17,10 +17,8 @@
 
 
 .nh-picker-theme-dark {
-  //--indicator-color: rgba(91, 66, 243, 0.79);
   --indicator-color: #5AB2FF;
   --blue-light: rgb(136, 120, 244);
-  //--primary-color: rgb(33, 37, 41);
   --primary-color: #2C4E80;
   --secondary-color: rgba(255, 255, 255, 0.35);
   --button-span-color: #fff;
@@ -35,10 +33,6 @@ $buttonSpanColor: var(--button-span-color);
 body {
   font-family: Arial, sans-serif;
   height: 100vh;
-  width: 100%;
-  //display: flex;
-  //justify-content: flex-end;
-  //align-items: center;
 }
 
 @mixin span-hover {

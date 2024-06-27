@@ -162,7 +162,7 @@
                             $(calendar).children('.picker-footer').children('button[data-clear]').remove();
                         }
 
-                        if (todayActive) {
+                        if (todayActive && !monthSelect && !yearSelect) {
                             $(calendar).children('.picker-footer').children('button[data-today]').remove();
                             $(calendar).children('.picker-footer').append('<button data-today>Today</button>')
                         } else {
