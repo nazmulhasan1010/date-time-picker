@@ -18,7 +18,7 @@
                 headerSection = $(div, {class: 'nh-calendar-header'}),
                 open = false, formatOp = options.dateFormat ?? 'dd/mm/yyyy', minDateOp = options.minDate ?? null,
                 maxDateOp = options.maxDate ?? null, todayOp = options.today ?? true,
-                monthSelectionOp = options.monthSelection ?? false,
+                monthSelectionOp = options.monthSelection ?? false, yearSelectionOp = options.yearSelection ?? false,
                 clearOp = options.clear ?? true, typeOp = options.type, dateRangeOp = options.dateRange ?? false,
                 rangeA = {}, timeFormatOp = options.timeFormat ?? 12,
                 themeOp = options.theme ?? 'auto';
@@ -89,6 +89,8 @@
                     'data-nh-time-format': $(element).data('nhTimeFormat'),
                     'data-nh-picker-theme': $(element).data('nhPickerTheme'),
                     'data-nh-clear': $(element).data('nhClear'),
+                    'data-nh-year-select': $(element).data('nhYearSelect'),
+                    'data-nh-month-select': $(element).data('nhMonthSelect'),
                 });
 
                 let comma = ',', fieldClasses = $(field).attr('class').split(/\s+/), singleElementClass = '';
@@ -124,6 +126,7 @@
                     format = $(this).data('nhDateFormat') ?? formatOp, todayActive = $(this).data('nhToday') ?? todayOp,
                     clearActive = $(this).data('nhClear') ?? clearOp,
                     monthSelect = $(this).data('nhMonthSelect') ?? monthSelectionOp,
+                    yearSelect = $(this).data('nhYearSelect') ?? yearSelectionOp,
                     pickerType = $(this).data('type') === 'date' || $(this).data('type') === 'time' ? $(this).data('type') : typeOp === 'date' || typeOp === 'time' ? typeOp : 'date',
                     theme = $(this).data('nhPickerTheme') ?? themeOp,
                     dateRange = $(this).data('nhDateRange') ?? dateRangeOp;
@@ -177,7 +180,8 @@
                             today = cuDate.getDate();
 
                         if (thisDate) {
-                            cuDate = dateInitialize($(this).val(), format);
+                            if (!yearSelect)
+                                cuDate = dateInitialize($(this).val(), format);
                             cuYear = cuDate.getFullYear();
                             cuMonth = cuDate.getMonth();
                             today = cuDate.getDate();
@@ -220,148 +224,155 @@
                         calenderShowing(cuDate, cuYear, cuMonth, today, maxDate ?? null, minDate ?? null, 'start');
 
                         function calenderShowing(date, year, month, day, mxLast = null, mnLast = null, start = null) {
-                            // $(content).removeClass('nh-active').addClass('nh-inactive');
-                            // $('.nh-calendar-days').removeClass('nh-inactive').addClass('nh-active');
-                            // $(headerContent).show();
-                            // $(headerText).removeClass('nh-active').addClass('nh-inactive');
-                            // $(header).css('grid-template-columns', 'repeat(3, auto');
-                            //
-                            // function getDaysInMonth(year, month) {
-                            //     let next = new Date(year, month + 1, 1), last = new Date(next - 1);
-                            //     return last.getDate();
-                            // }
-                            //
-                            // function getDayOfWeek(year, month) {
-                            //     return new Date(year, month, 1).getDay() + 1;
-                            // }
-                            //
-                            // let days = getDaysInMonth(year, month), dayNumber = getDayOfWeek(year, month),
-                            //     dayDate = $('.nh-day-date'), previousMonth = getDaysInMonth(year, (month - 1)),
-                            //     previousMonthDate = (previousMonth - (dayNumber - 2)),
-                            //     nextMonthDays = 42 - (days + (dayNumber - 1));
-                            //
-                            //
-                            // $(cuMonthYear).children('button:first').text(months[month])
-                            // $(cuMonthYear).children('button:nth-child(2)').text(year)
-                            // $(nextPevMonth).removeClass('inactive');
-                            // $(dayDate).empty();
-                            //
-                            // for (let i = previousMonthDate; i <= previousMonth; i++) {
-                            //     $(dayDate).append($('<span>', {text: i, class: 'nh-previous-days'}));
-                            // }
-                            //
-                            // for (let i = 1; i <= days; i++) {
-                            //     if (mnLast && i < mnLast && !start || start && mnLast && mnLast.getMonth() >= month && mnLast.getFullYear() >= year && i < mnLast.getDate()) {
-                            //         $(previewButton).addClass('inactive');
-                            //         $(dayDate).append($('<span>', {
-                            //             'data-value': i,
-                            //             text: i,
-                            //             class: 'nh-current-disable'
-                            //         }));
-                            //     } else if (mxLast && i > mxLast && !start || start && mxLast && mxLast.getMonth() <= month && mxLast.getFullYear() <= year && i > mxLast.getDate()) {
-                            //         $(nextButton).addClass('inactive');
-                            //         $(dayDate).append($('<span>', {
-                            //             'data-value': i,
-                            //             text: i,
-                            //             class: 'nh-current-disable'
-                            //         }));
-                            //     } else {
-                            //         if (rangeA.hasOwnProperty('dateB')) {
-                            //             let rangeADateB = new Date(rangeA['dateB'].year, rangeA['dateB'].month - 1, parseInt(rangeA['dateB'].date)),
-                            //                 thisDate = new Date(year, month, i),
-                            //                 rangeADateA = new Date(rangeA['dateA'].year, rangeA['dateA'].month - 1, parseInt(rangeA['dateA'].date));
-                            //             if (thisDate >= rangeADateA && thisDate <= rangeADateB) {
-                            //                 $(dayDate).append($('<span>', {
-                            //                     'data-value': i, text: i, class: 'nh-current nh-span-active'
-                            //                 }));
-                            //             } else {
-                            //                 $(dayDate).append($('<span>', {
-                            //                     'data-value': i,
-                            //                     text: i,
-                            //                     class: 'nh-current'
-                            //                 }));
-                            //             }
-                            //         } else {
-                            //             $(dayDate).append($('<span>', {'data-value': i, text: i, class: 'nh-current'}));
-                            //         }
-                            //     }
-                            // }
-                            //
-                            // for (let i = 1; i <= nextMonthDays; i++) {
-                            //     $(dayDate).append($('<span>', {text: i, class: 'nh-next-days'}));
-                            // }
-                            //
-                            // if (cuDate.getMonth() === month && cuDate.getFullYear() === year) $(dayDate).children(`span:nth-child(${day + (dayNumber - 1)})`).addClass('nh-span-active');
-                            //
-                            // if (rangeA.hasOwnProperty('dateB') && rangeA.hasOwnProperty('dateA')) {
-                            //     let rangeADate = new Date(rangeA['dateA'].year, rangeA['dateA'].month - 1, parseInt(rangeA['dateA'].date)),
-                            //         rangeBDate = new Date(rangeA['dateB'].year, rangeA['dateB'].month - 1, parseInt(rangeA['dateB'].date));
-                            //     $(dayDate).children('span.nh-current').each(function (index, element) {
-                            //         let elementDate = new Date(year, month, $(element).data('value'));
-                            //         if (elementDate >= rangeADate && elementDate <= rangeBDate) {
-                            //             $(element).addClass('nh-span-active');
-                            //         } else {
-                            //             $(element).removeClass('nh-span-active');
-                            //         }
-                            //     })
-                            // } else if (rangeA.hasOwnProperty('dateA') && Number(rangeA['dateA'].month) - 1 === month && rangeA['dateA'].year === year) {
-                            //     $(dayDate).children(`span:nth-child(${(Number(rangeA['dateA'].date) + (dayNumber - 1))})`).addClass('nh-span-active');
-                            // }
-                            // let object = {};
-                            // $(dayDate).children('span.nh-current').hover(function () {
-                            //     if (rangeA.hasOwnProperty('dateA')) {
-                            //         let rangeADate = new Date(rangeA['dateA'].year, rangeA['dateA'].month - 1, parseInt(rangeA['dateA'].date)),
-                            //             touchDate = new Date(year, month, $(this).data('value'));
-                            //         let selectedDate = addZero($(this).data('value')),
-                            //             selectedMonth = addZero(month + 1);
-                            //         if (touchDate !== rangeADate) {
-                            //             $(dayDate).children('span.nh-current').each(function (index, element) {
-                            //                 let elementDate = new Date(year, month, $(element).data('value'));
-                            //                 if (elementDate >= rangeADate && elementDate <= touchDate) {
-                            //                     $(element).addClass('nh-span-active');
-                            //                     rangeA['dateB'] = {
-                            //                         month: selectedMonth, date: selectedDate, year: year
-                            //                     };
-                            //                 } else {
-                            //                     $(element).removeClass('nh-span-active');
-                            //                     $(dayDate).children(`span:nth-child(${(Number(rangeA['dateA'].date) + (dayNumber - 1))})`).addClass('nh-span-active');
-                            //                 }
-                            //             })
-                            //         }
-                            //     }
-                            // })
-                            //
-                            // $(dayDate).children('span.nh-current').click(function () {
-                            //     let selectedDate = addZero($(this).data('value')), selectedMonth = addZero(month + 1);
-                            //     if (dateRange === true) {
-                            //         let dateDataA = {
-                            //             month: selectedMonth, date: selectedDate, year: year
-                            //         };
-                            //         if (!rangeA.hasOwnProperty('dateA')) {
-                            //             $(this).addClass('nh-span-active');
-                            //             rangeA['dateA'] = dateDataA;
-                            //         } else {
-                            //             let rangeName = $(exception).data('nhName') ?? 'range';
-                            //             $(exception).attr('name', '');
-                            //             $(exception).siblings('.nh-date-range-inputs').remove();
-                            //             $(exception).parent().append($('<div>', {class: 'nh-date-range-inputs'}).append($('<input>', {
-                            //                 type: 'hidden',
-                            //                 name: rangeName + '[from]',
-                            //                 value: `${dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year)}`
-                            //             })).append($('<input>', {
-                            //                 type: 'hidden',
-                            //                 name: rangeName + '[to]',
-                            //                 value: `${dateFormating(selectedDate, selectedMonth, year)}`
-                            //             })));
-                            //
-                            //             $(exception).val(dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year) + ' to ' + dateFormating(selectedDate, selectedMonth, year))
-                            //             pickerClose();
-                            //         }
-                            //     } else {
-                            //         $(exception).val(dateFormating(selectedDate, selectedMonth, year));
-                            //         pickerClose();
-                            //     }
-                            // });
+                            if (!monthSelect && !yearSelect) {
+                                $(content).removeClass('nh-active').addClass('nh-inactive');
+                                $('.nh-calendar-days').removeClass('nh-inactive').addClass('nh-active');
+                                $(headerContent).show();
+                                $(headerText).removeClass('nh-active').addClass('nh-inactive');
+                                $(header).css('grid-template-columns', 'repeat(3, auto');
+
+                                function getDaysInMonth(year, month) {
+                                    let next = new Date(year, month + 1, 1), last = new Date(next - 1);
+                                    return last.getDate();
+                                }
+
+                                function getDayOfWeek(year, month) {
+                                    return new Date(year, month, 1).getDay() + 1;
+                                }
+
+                                let days = getDaysInMonth(year, month), dayNumber = getDayOfWeek(year, month),
+                                    dayDate = $('.nh-day-date'), previousMonth = getDaysInMonth(year, (month - 1)),
+                                    previousMonthDate = (previousMonth - (dayNumber - 2)),
+                                    nextMonthDays = 42 - (days + (dayNumber - 1));
+
+
+                                $(cuMonthYear).children('button:first').text(months[month])
+                                $(cuMonthYear).children('button:nth-child(2)').text(year)
+                                $(nextPevMonth).removeClass('inactive');
+                                $(dayDate).empty();
+
+                                for (let i = previousMonthDate; i <= previousMonth; i++) {
+                                    $(dayDate).append($('<span>', {text: i, class: 'nh-previous-days'}));
+                                }
+
+                                for (let i = 1; i <= days; i++) {
+                                    if (mnLast && i < mnLast && !start || start && mnLast && mnLast.getMonth() >= month && mnLast.getFullYear() >= year && i < mnLast.getDate()) {
+                                        $(previewButton).addClass('inactive');
+                                        $(dayDate).append($('<span>', {
+                                            'data-value': i,
+                                            text: i,
+                                            class: 'nh-current-disable'
+                                        }));
+                                    } else if (mxLast && i > mxLast && !start || start && mxLast && mxLast.getMonth() <= month && mxLast.getFullYear() <= year && i > mxLast.getDate()) {
+                                        $(nextButton).addClass('inactive');
+                                        $(dayDate).append($('<span>', {
+                                            'data-value': i,
+                                            text: i,
+                                            class: 'nh-current-disable'
+                                        }));
+                                    } else {
+                                        if (rangeA.hasOwnProperty('dateB')) {
+                                            let rangeADateB = new Date(rangeA['dateB'].year, rangeA['dateB'].month - 1, parseInt(rangeA['dateB'].date)),
+                                                thisDate = new Date(year, month, i),
+                                                rangeADateA = new Date(rangeA['dateA'].year, rangeA['dateA'].month - 1, parseInt(rangeA['dateA'].date));
+                                            if (thisDate >= rangeADateA && thisDate <= rangeADateB) {
+                                                $(dayDate).append($('<span>', {
+                                                    'data-value': i, text: i, class: 'nh-current nh-span-active'
+                                                }));
+                                            } else {
+                                                $(dayDate).append($('<span>', {
+                                                    'data-value': i,
+                                                    text: i,
+                                                    class: 'nh-current'
+                                                }));
+                                            }
+                                        } else {
+                                            $(dayDate).append($('<span>', {
+                                                'data-value': i,
+                                                text: i,
+                                                class: 'nh-current'
+                                            }));
+                                        }
+                                    }
+                                }
+
+                                for (let i = 1; i <= nextMonthDays; i++) {
+                                    $(dayDate).append($('<span>', {text: i, class: 'nh-next-days'}));
+                                }
+
+                                if (cuDate.getMonth() === month && cuDate.getFullYear() === year) $(dayDate).children(`span:nth-child(${day + (dayNumber - 1)})`).addClass('nh-span-active');
+
+                                if (rangeA.hasOwnProperty('dateB') && rangeA.hasOwnProperty('dateA')) {
+                                    let rangeADate = new Date(rangeA['dateA'].year, rangeA['dateA'].month - 1, parseInt(rangeA['dateA'].date)),
+                                        rangeBDate = new Date(rangeA['dateB'].year, rangeA['dateB'].month - 1, parseInt(rangeA['dateB'].date));
+                                    $(dayDate).children('span.nh-current').each(function (index, element) {
+                                        let elementDate = new Date(year, month, $(element).data('value'));
+                                        if (elementDate >= rangeADate && elementDate <= rangeBDate) {
+                                            $(element).addClass('nh-span-active');
+                                        } else {
+                                            $(element).removeClass('nh-span-active');
+                                        }
+                                    })
+                                } else if (rangeA.hasOwnProperty('dateA') && Number(rangeA['dateA'].month) - 1 === month && rangeA['dateA'].year === year) {
+                                    $(dayDate).children(`span:nth-child(${(Number(rangeA['dateA'].date) + (dayNumber - 1))})`).addClass('nh-span-active');
+                                }
+                                let object = {};
+                                $(dayDate).children('span.nh-current').hover(function () {
+                                    if (rangeA.hasOwnProperty('dateA')) {
+                                        let rangeADate = new Date(rangeA['dateA'].year, rangeA['dateA'].month - 1, parseInt(rangeA['dateA'].date)),
+                                            touchDate = new Date(year, month, $(this).data('value'));
+                                        let selectedDate = addZero($(this).data('value')),
+                                            selectedMonth = addZero(month + 1);
+                                        if (touchDate !== rangeADate) {
+                                            $(dayDate).children('span.nh-current').each(function (index, element) {
+                                                let elementDate = new Date(year, month, $(element).data('value'));
+                                                if (elementDate >= rangeADate && elementDate <= touchDate) {
+                                                    $(element).addClass('nh-span-active');
+                                                    rangeA['dateB'] = {
+                                                        month: selectedMonth, date: selectedDate, year: year
+                                                    };
+                                                } else {
+                                                    $(element).removeClass('nh-span-active');
+                                                    $(dayDate).children(`span:nth-child(${(Number(rangeA['dateA'].date) + (dayNumber - 1))})`).addClass('nh-span-active');
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+
+                                $(dayDate).children('span.nh-current').click(function () {
+                                    let selectedDate = addZero($(this).data('value')),
+                                        selectedMonth = addZero(month + 1);
+                                    if (dateRange === true) {
+                                        let dateDataA = {
+                                            month: selectedMonth, date: selectedDate, year: year
+                                        };
+                                        if (!rangeA.hasOwnProperty('dateA')) {
+                                            $(this).addClass('nh-span-active');
+                                            rangeA['dateA'] = dateDataA;
+                                        } else {
+                                            let rangeName = $(exception).data('nhName') ?? 'range';
+                                            $(exception).attr('name', '');
+                                            $(exception).siblings('.nh-date-range-inputs').remove();
+                                            $(exception).parent().append($('<div>', {class: 'nh-date-range-inputs'}).append($('<input>', {
+                                                type: 'hidden',
+                                                name: rangeName + '[from]',
+                                                value: `${dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year)}`
+                                            })).append($('<input>', {
+                                                type: 'hidden',
+                                                name: rangeName + '[to]',
+                                                value: `${dateFormating(selectedDate, selectedMonth, year)}`
+                                            })));
+
+                                            $(exception).val(dateFormating(rangeA['dateA'].date, rangeA['dateA'].month, rangeA['dateA'].year) + ' to ' + dateFormating(selectedDate, selectedMonth, year))
+                                            pickerClose();
+                                        }
+                                    } else {
+                                        $(exception).val(dateFormating(selectedDate, selectedMonth, year));
+                                        pickerClose();
+                                    }
+                                });
+                            }
                         }
 
                         function dateFormating(selectedDate, selectedMonth, selectedYear) {
@@ -379,51 +390,68 @@
                         }
 
                         function yearsShowing(from, year = null, mxYear = null, mnYear = null) {
-                            // let fromYear, toYear;
-                            // $(cuMonthYear).hide();
-                            // yearSection.empty();
-                            // if (from === 'current') {
-                            //     fromYear = year - 14;
-                            //     toYear = year + 15;
-                            //     yearShow(fromYear, toYear)
-                            // } else {
-                            //     toYear = from + 29;
-                            //     yearShow(from, toYear)
-                            // }
-                            //
-                            // $(nextPevMonth).removeClass('inactive');
-                            // if (mxYear && toYear >= mxYear.getFullYear()) {
-                            //     $(nextButton).addClass('inactive');
-                            // }
-                            //
-                            // if (mnYear && fromYear <= mnYear.getFullYear() || mnYear && from <= mnYear.getFullYear()) {
-                            //     $(previewButton).addClass('inactive');
-                            // }
-                            //
-                            // function yearShow(fromYear, toYear) {
-                            //     for (let i = fromYear; i <= toYear; i++) {
-                            //         if (mxYear && i > mxYear.getFullYear()) {
-                            //             $(yearSection).append($('<span>', {
-                            //                 'data-value': i, text: i, class: 'nh-current-disable'
-                            //             }));
-                            //         } else if (mnYear && i < mnYear.getFullYear()) {
-                            //             $(yearSection).append($('<span>', {
-                            //                 'data-value': i, text: i, class: 'nh-current-disable'
-                            //             }));
-                            //         } else {
-                            //             $(yearSection).append($('<span>', {
-                            //                 'data-value': i, text: i, class: 'nh-year-valid'
-                            //             }));
-                            //         }
-                            //     }
-                            //     $('span[data-value="' + cuDate.getFullYear() + '"]').addClass('nh-span-active');
-                            // }
-                            //
-                            // $(yearSection).children('span.nh-year-valid').click(function () {
-                            //     let year = $(this).data('value');
-                            //     cuYear = year;
-                            //     contentShowing($(monthSection), 'month', year)
-                            // });
+                            if (!monthSelect) {
+                                let fromYear, toYear;
+                                $(cuMonthYear).hide();
+                                yearSection.empty();
+
+                                if (yearSelect && !isNaN(parseInt($(exception).val()))) {
+                                    year = parseInt($(exception).val());
+                                }
+
+                                if (from === 'current') {
+                                    fromYear = year - 14;
+                                    toYear = year + 15;
+                                    yearShow(fromYear, toYear)
+                                } else {
+                                    toYear = from + 29;
+                                    yearShow(from, toYear)
+                                }
+
+
+                                $(nextPevMonth).removeClass('inactive');
+                                if (mxYear && toYear >= mxYear.getFullYear()) {
+                                    $(nextButton).addClass('inactive');
+                                }
+
+                                if (mnYear && fromYear <= mnYear.getFullYear() || mnYear && from <= mnYear.getFullYear()) {
+                                    $(previewButton).addClass('inactive');
+                                }
+
+                                function yearShow(fromYear, toYear) {
+                                    for (let i = fromYear; i <= toYear; i++) {
+                                        if (mxYear && i > mxYear.getFullYear()) {
+                                            $(yearSection).append($('<span>', {
+                                                'data-value': i, text: i, class: 'nh-current-disable'
+                                            }));
+                                        } else if (mnYear && i < mnYear.getFullYear()) {
+                                            $(yearSection).append($('<span>', {
+                                                'data-value': i, text: i, class: 'nh-current-disable'
+                                            }));
+                                        } else {
+                                            $(yearSection).append($('<span>', {
+                                                'data-value': i, text: i, class: 'nh-year-valid'
+                                            }));
+                                        }
+                                    }
+
+                                    $('span[data-value="' + cuDate.getFullYear() + '"]').addClass('nh-span-active');
+                                    if (yearSelect && !isNaN(parseInt($(exception).val()))) {
+                                        $('span[data-value]').removeClass('nh-span-active');
+                                        $('span[data-value="' + $(exception).val() + '"]').addClass('nh-span-active');
+                                    }
+                                }
+
+                                $(yearSection).children('span.nh-year-valid').click(function () {
+                                    let year = $(this).data('value');
+                                    cuYear = year;
+                                    if (yearSelect) {
+                                        $(exception).val(cuYear);
+                                        pickerClose();
+                                    }
+                                    contentShowing($(monthSection), 'month', year)
+                                });
+                            }
                         }
 
                         let mxLast = null, mnLast = null;
@@ -510,7 +538,8 @@
                                 }
 
                                 $(headerContent).hide();
-                                $(header).css('grid-template-columns', 'repeat(1, 100%)');
+                                if (!yearSelect)
+                                    $(header).css('grid-template-columns', 'repeat(1, 100%)');
                             }
 
                             if (name === 'year') {
@@ -539,7 +568,7 @@
                                     if (data === 'dd') {
                                         pDate = parseInt(date[index]);
                                     }
-                                    if (!monthSelect && data === 'mm') {
+                                    if (!monthSelect && data === 'mm' && date[index]) {
                                         if (months.includes(capitalizeWords(date[index]))) {
                                             pMonth = months.indexOf(capitalizeWords(date[index])) + 1;
                                         } else {
@@ -575,6 +604,9 @@
 
                         if (monthSelect)
                             contentShowing($(monthSection), 'month');
+
+                        if (yearSelect)
+                            contentShowing($(yearSection), 'year');
                         open = true;
                     } else {
                         pickerClose();
@@ -764,4 +796,5 @@
             }
         }
     })
-}));
+}))
+;

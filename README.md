@@ -156,6 +156,40 @@ $('.picker').picker({
 });
 ```
 
+## Month picker
+
+You can use ``Month Picker``` if you want to select month only `
+
+```html
+<!-- default value false -->
+<input type="time" class="picker" data-nh-month-select="true">
+```
+
+```or```
+
+```javascript
+$('.picker').picker({
+    monthSelection: true // default value false
+});
+```
+
+## Year picker
+
+You can use ``Year Picker``` if you want to select Year only `
+
+```html
+<!-- default value false -->
+<input type="time" class="picker" data-nh-year-select="true">
+```
+
+```or```
+
+```javascript
+$('.picker').picker({
+    yearSelection: true // default value false
+});
+```
+
 ## Picker Colour Theme
 
 Only ```dark``` and ```light``` themes are available here. If you want to change the colour theme, you need to add
