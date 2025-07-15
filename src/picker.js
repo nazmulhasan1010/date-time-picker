@@ -209,8 +209,9 @@
                         })
 
                         $('.picker-footer button[data-today]').click(function () {
-                            let todayDate = addZero(cuDate.getDate()), todayMonth = addZero(cuDate.getMonth() + 1);
-                            $(exception).val(dateFormating(todayDate, todayMonth, cuDate.getFullYear()));
+                            let now = new Date();
+                            let todayDate = addZero(now.getDate()), todayMonth = addZero(now.getMonth() + 1);
+                            $(exception).val(dateFormating(todayDate, todayMonth, now.getFullYear()));
                             pickerClose();
                         })
 
@@ -656,7 +657,10 @@
                         if (timeFormat === 24) {
                             $(formatSection).hide();
                         }
-                        $(hmfSection).on("mousewheel", function (event) {
+                        $(hmfSection).on('mousewheel DOMMouseScroll', function (event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+
                             let delta = event.originalEvent.deltaY || event.originalEvent.detail,
                                 value = parseInt($(this).children(`input.nh-active`).val()),
                                 section = $(this).data('element'), count = section === 'hour' ? timeFormat : 60;
@@ -797,4 +801,3 @@
         }
     })
 }))
-;
