@@ -209,9 +209,8 @@
                         })
 
                         $('.picker-footer button[data-today]').click(function () {
-                            let now = new Date();
-                            let todayDate = addZero(now.getDate()), todayMonth = addZero(now.getMonth() + 1);
-                            $(exception).val(dateFormating(todayDate, todayMonth, now.getFullYear()));
+                            let todayDate = addZero(cuDate.getDate()), todayMonth = addZero(cuDate.getMonth() + 1);
+                            $(exception).val(dateFormating(todayDate, todayMonth, cuDate.getFullYear()));
                             pickerClose();
                         })
 
@@ -693,7 +692,8 @@
                                 }
                             }
 
-                            $(place).children(`input.nh-active`).val(value === 24 && count === 24 ? 0 : value);
+                            let placeValue = value === 24 && count === 24 ? 0 : value;
+                            $(place).children(`input.nh-active`).val(addZero(placeValue === 60 ? 0 : placeValue));
 
                             let values = {
                                 'v1': (((value - 3 + count) % count) + 1) === 24 && count === 24 ? 0 : (((value - 3 + count) % count) + 1),
@@ -704,8 +704,8 @@
 
                             for (let i = 1; i < 6; i++) {
                                 if (i !== 3) {
-                                    let data = values['v' + i];
-                                    $(place).children(`input:nth-child(${i})`).val(data);
+                                    let data = values['v' + i] === 60 ? 0 : values['v' + i];
+                                    $(place).children(`input:nth-child(${i})`).val(addZero(data));
                                 }
                             }
                         }
