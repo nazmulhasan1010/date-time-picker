@@ -91,6 +91,7 @@
                     'data-nh-clear': $(element).data('nhClear'),
                     'data-nh-year-select': $(element).data('nhYearSelect'),
                     'data-nh-month-select': $(element).data('nhMonthSelect'),
+                    autocomplete: 'off'
                 });
 
                 let comma = ',', fieldClasses = $(field).attr('class').split(/\s+/), singleElementClass = '';
@@ -121,7 +122,8 @@
 
             let fieldClassesArray = fieldClasses.split(',');
 
-            $(fieldClasses).click(function () {
+            $(document).on('click', fieldClasses, function (e) {
+                $('.nh-picker, .nh-time-picker').remove();
                 let pickerActiveClass = $(this).attr('class').split(/\s+/),
                     format = $(this).data('nhDateFormat') ?? formatOp, todayActive = $(this).data('nhToday') ?? todayOp,
                     clearActive = $(this).data('nhClear') ?? clearOp,
@@ -626,7 +628,7 @@
                         let cuTime = new Date(), cuHr = cuTime.getHours(), cuMinute = cuTime.getMinutes(),
                             cuSecond = cuTime.getSeconds();
 
-                        $(body).append($(timePicker));
+                        $('body').append(timePicker);
 
                         let hourSection = $('.nh-time-hours'),
                             hmfSection = $('.nh-time-hours,.nh-time-minute,.nh-time-format'),
@@ -645,7 +647,8 @@
 
                         let meri = cuHr >= 12 ? 'pm' : 'am', hour = timeFormat === 12 ? cuHr % 12 : cuHr;
                         hour = hour ? hour : 12;
-                        setTime(hour, cuMinute, meri);
+                        if (!$(exception).val())
+                            setTime(hour, cuMinute, meri);
                         $(formatSection).children('input').addClass('nh-inactive').removeClass('nh-active');
                         $(formatSection).children(`input[value='${meri}']`).addClass('nh-active').removeClass('nh-inactive');
 
@@ -712,7 +715,7 @@
 
                         function setTime(hr, m, me) {
                             me = timeFormat === 24 ? '' : ':' + me;
-                            $(exception).val(`${addZero(hr)}:${addZero(m)}${me}`)
+                            $(exception).val(`${addZero(hr)}:${addZero(m)}${me}`);
                         }
 
                         let thisElement = this;
@@ -782,7 +785,7 @@
                     topPosition = (top + height + 12)
                 }
 
-                if (top < 0 || (bodyHeight - top) < 0 || $(thisElement).position().top < 0 || (bodyHeight - $(thisElement).position().top) < 0) {
+                if (top < 0 || $(thisElement).position().top < 0 || (bodyHeight - $(thisElement).position().top) < 0) {
                     pickerClose()
                 }
 
